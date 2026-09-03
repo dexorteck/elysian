@@ -1,0 +1,30 @@
+{% doc %}
+  Outputs the global font declarations and design tokens configured by the merchant.
+{% enddoc %}
+
+{% style %}
+  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
+  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_display_font | font_face: font_display: 'swap' }}
+  {{ settings.type_display_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+
+  :root {
+    --font-primary-family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
+    --font-primary-style: {{ settings.type_primary_font.style }};
+    --font-primary-weight: {{ settings.type_primary_font.weight }};
+    --font-display-family: {{ settings.type_display_font.family }}, {{ settings.type_display_font.fallback_families }};
+    --font-display-style: {{ settings.type_display_font.style }};
+    --font-display-weight: {{ settings.type_display_font.weight }};
+    --letter-spacing-display: -0.035em;
+    --letter-spacing-label: 0.055em;
+    --page-width: {{ settings.max_page_width }};
+    --page-margin: {{ settings.min_page_margin }}px;
+    --site-gutter: clamp(1.25rem, 3vw, 3rem);
+    --site-edge: var(--site-gutter);
+    --color-background: {{ settings.background_color }};
+    --color-foreground: {{ settings.foreground_color }};
+    --color-accent: {{ settings.accent_color }};
+    --color-surface: {{ settings.surface_color }};
+    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+  }
+{% endstyle %}

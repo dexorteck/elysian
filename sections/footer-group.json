@@ -1,0 +1,63 @@
+{
+  "type": "footer",
+  "name": "t:general.footer",
+  "sections": {
+    "faq": {
+      "type": "elysian-faq",
+      "settings": {
+        "eyebrow": "FAQs",
+        "heading": "",
+        "intro": ""
+      },
+      "blocks": {
+        "event": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I hear about the next event?",
+            "answer": "Join the club to receive first access to event announcements and ticket releases."
+          }
+        },
+        "ticket": {
+          "type": "faq",
+          "settings": {
+            "question": "Do clothing purchases include an event ticket?",
+            "answer": "Selected drops include a ticket to the next Elysian event. The offer is shown on the product and at checkout."
+          }
+        },
+        "shipping": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "Orders are prepared in Lisbon and dispatched as soon as possible. You will receive tracking details by email."
+          }
+        },
+        "returns": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I return an item?",
+            "answer": "Contact us within 14 days of delivery and we will guide you through the return process."
+          }
+        }
+      },
+      "block_order": ["event", "ticket", "shipping", "returns"]
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "menu": "footer",
+        "instagram_url": "https://www.instagram.com/elysian.groove/",
+        "spotify_url": "https://open.spotify.com/",
+        "tagline": "Sunset to sunrise.\nLisbon, PT",
+        "shop_label": "Shop",
+        "shop_all_label": "Shop all",
+        "explore_label": "Explore",
+        "follow_label": "Follow us",
+        "location_label": "Where we are",
+        "newsletter_eyebrow": "Join the club",
+        "newsletter_note": "No spam. Just parties.",
+        "back_to_top_label": "Back to top"
+      }
+    }
+  },
+  "order": ["faq", "footer"]
+}

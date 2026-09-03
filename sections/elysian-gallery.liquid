@@ -1,0 +1,184 @@
+<section class="elysian-gallery full-width">
+  <header class="elysian-gallery__header">
+    <nav class="elysian-gallery__filters" aria-label="Gallery events">
+      <button type="button" class="is-active" data-gallery-filter="all">All</button>
+      <button type="button" data-gallery-filter="1-year">{{ section.settings.event_one }}</button>
+      <button type="button" data-gallery-filter="loft-marvila">{{ section.settings.event_two }}</button>
+      <button type="button" data-gallery-filter="maat">{{ section.settings.event_three }}</button>
+      <button type="button" data-gallery-filter="2-year">{{ section.settings.event_four }}</button>
+    </nav>
+  </header>
+
+  <div class="elysian-gallery__grid">
+    {% for maat_index in (1..55) %}
+      {% assign maat_asset = 'gallery-maat-' | append: maat_index | append: '.jpg' %}
+      <figure class="elysian-gallery__item" data-gallery-event="maat">
+        <img src="{{ maat_asset | asset_url }}" width="1200" height="1800" loading="lazy" decoding="async" alt="Elysian MAAT">
+      </figure>
+    {% endfor %}
+
+    {% for second_year_index in (1..56) %}
+      {% assign second_year_asset = 'gallery-2year-' | append: second_year_index | append: '.jpg' %}
+      <figure class="elysian-gallery__item" data-gallery-event="2-year">
+        <img src="{{ second_year_asset | asset_url }}" width="1200" height="1800" loading="lazy" decoding="async" alt="Elysian 2 Year">
+      </figure>
+    {% endfor %}
+
+    {% for block in section.blocks %}
+      {% liquid
+        case forloop.index0 modulo 5
+          when 0
+            assign fallback_asset = 'IMG_2971.jpeg'
+          when 1
+            assign fallback_asset = 'elysian-look-coral.jpg'
+          when 2
+            assign fallback_asset = 'elysian-look-green.jpg'
+          when 3
+            assign fallback_asset = 'elysian-look-blue.jpg'
+          else
+            assign fallback_asset = 'elysian-look-yellow.jpg'
+        endcase
+      %}
+      <figure class="elysian-gallery__item" data-gallery-event="{{ block.settings.event | handleize }}" {{ block.shopify_attributes }}>
+        {% if block.settings.image %}
+          {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '480, 760, 1000, 1400', alt: block.settings.alt_text }}
+        {% elsif block.settings.asset != blank %}
+          <img src="{{ block.settings.asset | asset_url }}" width="1200" height="1800" loading="lazy" decoding="async" alt="{{ block.settings.alt_text | escape }}">
+        {% else %}
+          <img src="{{ fallback_asset | asset_url }}" width="1400" height="1050" loading="lazy" decoding="async" alt="{{ block.settings.alt_text | escape }}">
+        {% endif %}
+      </figure>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .elysian-gallery {
+    padding: clamp(2.5rem, 4.5vw, 4.5rem) var(--site-edge) clamp(5rem, 9vw, 9rem);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .elysian-gallery__header {
+    margin-bottom: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  .elysian-gallery__header p {
+    font-size: 0.7rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-gallery__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .elysian-gallery__filters button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: color-mix(in srgb, var(--color-foreground) 48%, transparent);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .elysian-gallery__filters button.is-active,
+  .elysian-gallery__filters button:hover {
+    color: var(--color-foreground);
+  }
+
+  .elysian-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  }
+
+  .elysian-gallery__item {
+    margin: 0;
+  }
+
+  .elysian-gallery__item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  @media (max-width: 680px) {
+    .elysian-gallery__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .elysian-gallery__filters {
+      margin-top: 1.25rem;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('.elysian-gallery').forEach((gallery) => {
+    const buttons = gallery.querySelectorAll('[data-gallery-filter]');
+    const grid = gallery.querySelector('.elysian-gallery__grid');
+    const items = Array.from(gallery.querySelectorAll('[data-gallery-event]'));
+    const eventOrder = ['2-year', 'maat', 'loft-marvila', '1-year'];
+
+    items
+      .sort((a, b) => eventOrder.indexOf(a.dataset.galleryEvent) - eventOrder.indexOf(b.dataset.galleryEvent))
+      .forEach((item) => grid.appendChild(item));
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.galleryFilter;
+        buttons.forEach((item) => item.classList.toggle('is-active', item === button));
+        items.forEach((item) => {
+          item.hidden = filter !== 'all' && item.dataset.galleryEvent !== filter;
+        });
+      });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Elysian Gallery",
+  "max_blocks": 50,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Gallery" },
+    { "type": "text", "id": "event_one", "label": "First event name", "default": "1 Year" },
+    { "type": "text", "id": "event_two", "label": "Second event name", "default": "Loft Marvila" },
+    { "type": "text", "id": "event_three", "label": "Third event name", "default": "MAAT" },
+    { "type": "text", "id": "event_four", "label": "Fourth event name", "default": "2 Year" }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "asset", "label": "Theme asset filename" },
+        { "type": "text", "id": "event", "label": "Event", "default": "1 Year" },
+        { "type": "text", "id": "alt_text", "label": "Alt text", "default": "Elysian community" },
+        { "type": "text", "id": "caption", "label": "Caption" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Elysian Gallery",
+      "blocks": [
+        { "type": "photo", "settings": { "alt_text": "Elysian community on the water", "caption": "Good music" } },
+        { "type": "photo", "settings": { "alt_text": "Elysian summer gathering", "caption": "Golden hours" } },
+        { "type": "photo", "settings": { "alt_text": "Elysian friends together", "caption": "Beautiful people" } },
+        { "type": "photo", "settings": { "alt_text": "Elysian after dark", "caption": "After dark" } },
+        { "type": "photo", "settings": { "alt_text": "Elysian memories", "caption": "Stay awhile" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,69 @@
+{
+  "sections": {
+    "hero": {
+      "type": "elysian-hero",
+      "settings": {
+        "accessible_heading": "Elysian — sunset to sunrise",
+        "tagline": "Chase the sun.\nStay for the night.",
+        "event_label": "Next event",
+        "event_name": "Bliss\nVilamoura",
+        "event_date": "05 SEP '26",
+        "event_location": "Algarve\nVilamoura",
+        "event_link": "#shop"
+      }
+    },
+    "shop": {
+      "type": "elysian-shop",
+      "blocks": {
+        "sunset_tee": {
+          "type": "product_card",
+          "settings": {
+            "fallback_title": "Tee 1",
+            "fallback_price": "€50",
+            "placeholder": "pink"
+          }
+        },
+        "after_dark": {
+          "type": "product_card",
+          "settings": {
+            "fallback_title": "Tee 2",
+            "fallback_price": "€50",
+            "placeholder": "yellow"
+          }
+        },
+        "golden_hour": {
+          "type": "product_card",
+          "settings": {
+            "fallback_title": "Tee 3",
+            "fallback_price": "€50",
+            "placeholder": "ringer"
+          }
+        },
+        "night_coach": {
+          "type": "product_card",
+          "settings": {
+            "fallback_title": "Tee 4",
+            "fallback_price": "€50",
+            "placeholder": "cream"
+          }
+        }
+      },
+      "block_order": ["sunset_tee", "after_dark", "golden_hour", "night_coach"],
+      "settings": {
+        "eyebrow": "New arrivals",
+        "button_label": "Shop all",
+        "background": "#090909",
+        "foreground": "#f0eadf"
+      }
+    },
+    "story": {
+      "type": "elysian-story",
+      "settings": {
+        "eyebrow": "Our story",
+        "link_label": "Read our story",
+        "link": "/pages/about"
+      }
+    }
+  },
+  "order": ["hero", "shop", "story"]
+}

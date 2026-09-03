@@ -1,0 +1,229 @@
+<section class="elysian-cart">
+  <header class="elysian-cart__header">
+    <p>{{ 'cart.eyebrow' | t }}</p>
+    <h1 class="elysian-display">{{ 'cart.title' | t }}</h1>
+  </header>
+
+  {% if cart.item_count > 0 %}
+    <form class="elysian-cart__form" action="{{ routes.cart_url }}" method="post">
+      <div class="elysian-cart__items">
+        {% for item in cart.items %}
+          <article class="elysian-cart__item">
+            <a class="elysian-cart__image" href="{{ item.url }}">
+              {% if item.image %}{{ item.image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '160, 240, 400', alt: item.image.alt | default: item.product.title }}{% endif %}
+            </a>
+            <div class="elysian-cart__details">
+              <h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>
+              {% unless item.product.has_only_default_variant %}
+                <dl>
+                  {% for option in item.options_with_values %}<div><dt>{{ option.name }}:</dt><dd>{{ option.value }}</dd></div>{% endfor %}
+                </dl>
+              {% endunless %}
+              <p>{{ item.final_price | money }}</p>
+              <a class="elysian-cart__remove" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
+            </div>
+            <div class="elysian-cart__quantity">
+              <label for="CartQuantity-{{ forloop.index }}">{{ 'products.product.quantity' | t }}</label>
+              <input id="CartQuantity-{{ forloop.index }}" type="number" name="updates[]" min="0" value="{{ item.quantity }}" inputmode="numeric">
+            </div>
+            <strong>{{ item.final_line_price | money }}</strong>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div class="elysian-cart__summary">
+        <label for="CartNote">{{ 'cart.note' | t }}</label>
+        <textarea id="CartNote" name="note" rows="4">{{ cart.note }}</textarea>
+        <div class="elysian-cart__total"><span>{{ 'cart.total' | t }}</span><strong>{{ cart.total_price | money_with_currency }}</strong></div>
+        {% if cart.taxes_included %}<p>{{ 'products.product.taxes_included' | t }}</p>{% endif %}
+        <button type="submit" name="update">{{ 'cart.update' | t }}</button>
+        <button class="elysian-cart__checkout" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+        {% if additional_checkout_buttons %}<div class="elysian-cart__accelerated">{{ content_for_additional_checkout_buttons }}</div>{% endif %}
+      </div>
+    </form>
+  {% else %}
+    <div class="elysian-cart__empty">
+      <p>{{ 'cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}">{{ '404.back_to_shopping' | t }}</a>
+    </div>
+  {% endif %}
+</section>
+
+{% stylesheet %}
+  .elysian-cart {
+    padding: clamp(5rem, 9vw, 9rem) 0;
+  }
+
+  .elysian-cart__header p {
+    font-size: 0.65rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-cart h1 {
+    margin: 2rem 0 clamp(3rem, 7vw, 7rem);
+    font-size: clamp(4rem, 10vw, 10rem);
+  }
+
+  .elysian-cart__form {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.6fr);
+    gap: clamp(3rem, 7vw, 8rem);
+  }
+
+  .elysian-cart__item {
+    display: grid;
+    grid-template-columns: 8rem 1fr 6rem auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  .elysian-cart__item:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  .elysian-cart__image {
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: var(--color-surface);
+  }
+
+  .elysian-cart__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .elysian-cart__details h2 {
+    font-family: var(--font-display-family);
+    font-style: var(--font-display-style);
+    font-weight: var(--font-display-weight);
+    font-size: 1.2rem;
+    letter-spacing: var(--letter-spacing-display);
+    text-transform: uppercase;
+  }
+
+  .elysian-cart__details a {
+    color: inherit;
+  }
+
+  .elysian-cart__details dl,
+  .elysian-cart__details p,
+  .elysian-cart__remove {
+    margin-top: 0.55rem;
+    color: color-mix(in srgb, var(--color-foreground) 58%, transparent);
+    font-size: 0.72rem;
+  }
+
+  .elysian-cart__details dl div {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .elysian-cart__quantity label,
+  .elysian-cart__summary label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.62rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-cart__quantity input {
+    width: 5rem;
+    padding: 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 25%, transparent);
+    background: transparent;
+    color: inherit;
+  }
+
+  .elysian-cart__summary {
+    align-self: start;
+    padding: 2rem;
+    background: var(--color-surface);
+  }
+
+  .elysian-cart__summary textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 25%, transparent);
+    background: transparent;
+    color: inherit;
+    resize: vertical;
+  }
+
+  .elysian-cart__total {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0 0.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  .elysian-cart__summary > p {
+    margin-bottom: 1.5rem;
+    color: color-mix(in srgb, var(--color-foreground) 52%, transparent);
+    font-size: 0.7rem;
+  }
+
+  .elysian-cart__summary button {
+    width: 100%;
+    min-height: 3.4rem;
+    margin-top: 0.75rem;
+    padding: 0.8rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 28%, transparent);
+    background: transparent;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .elysian-cart__summary .elysian-cart__checkout {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-weight: 700;
+  }
+
+  .elysian-cart__accelerated {
+    margin-top: 1rem;
+  }
+
+  .elysian-cart__empty {
+    padding: 4rem 0;
+    border-block: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  .elysian-cart__empty a {
+    display: inline-block;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .elysian-cart__form {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .elysian-cart__item {
+      grid-template-columns: 6rem 1fr;
+    }
+
+    .elysian-cart__quantity {
+      grid-column: 2;
+    }
+
+    .elysian-cart__item > strong {
+      grid-column: 2;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.cart",
+  "settings": []
+}
+{% endschema %}

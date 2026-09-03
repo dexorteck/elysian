@@ -1,0 +1,356 @@
+{% liquid
+  assign announcement_url = section.settings.announcement_link
+  if announcement_url == blank
+    assign announcement_url = routes.root_url | append: '#shop'
+  endif
+%}
+
+{% if section.settings.show_announcement %}
+  <a class="elysian-announcement full-width" href="{{ announcement_url }}">
+    {{ section.settings.announcement_text }}
+  </a>
+{% endif %}
+
+<header class="elysian-header full-width{% if request.page_type == 'index' %} elysian-header--overlay{% endif %}{% if section.settings.show_announcement %} elysian-header--with-announcement{% endif %}" style="--logo-width: {{ settings.logo_width }}px" data-elysian-header>
+  <a class="elysian-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+    {% if settings.logo %}
+      {{ settings.logo | image_url: width: 440 | image_tag: widths: '144, 224, 320, 440', width: settings.logo_width, alt: shop.name }}
+    {% else %}
+      <img src="{{ 'logo.png' | asset_url }}" width="2105" height="812" alt="{{ shop.name | escape }}">
+    {% endif %}
+  </a>
+
+  <nav class="elysian-header__nav" id="ElysianMenu-{{ section.id }}" aria-label="{{ 'accessibility.main_navigation' | t }}" data-elysian-menu>
+    {% if section.settings.menu.links.size > 0 %}
+      {% assign has_about_link = false %}
+      {% assign has_gallery_link = false %}
+      {% for link in section.settings.menu.links %}
+        {% if link.url contains '/pages/about' %}{% assign has_about_link = true %}{% endif %}
+        {% if link.url contains '/pages/gallery' %}{% assign has_gallery_link = true %}{% endif %}
+        {% assign link_label = link.title %}
+        {% assign link_class = '' %}
+        {% if link.url == routes.root_url %}{% assign link_label = 'Home' %}{% endif %}
+        {% if link.url contains '/pages/contact' %}{% assign link_label = 'Contact' %}{% assign link_class = ' elysian-header__nav-link--contact' %}{% endif %}
+        {% if link.url contains '/pages/about' %}{% assign link_label = 'About' %}{% endif %}
+        {% if link.url contains '/pages/gallery' %}{% assign link_label = 'Gallery' %}{% endif %}
+        {% if link.url contains '/collections' %}{% assign link_label = 'Shop' %}{% endif %}
+        <a class="{{ link_class }}" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link_label }}</a>
+      {% endfor %}
+      {% unless has_about_link %}<a href="/pages/about">{{ 'navigation.about' | t }}</a>{% endunless %}
+      {% unless has_gallery_link %}<a href="/pages/gallery">{{ 'navigation.gallery' | t }}</a>{% endunless %}
+    {% else %}
+      <a href="{{ routes.root_url }}#shop">{{ 'navigation.shop' | t }}</a>
+      <a href="/pages/about">{{ 'navigation.about' | t }}</a>
+      <a href="/pages/gallery">{{ 'navigation.gallery' | t }}</a>
+      <a href="{{ routes.root_url }}#merch">{{ 'navigation.merch' | t }}</a>
+    {% endif %}
+  </nav>
+
+  <div class="elysian-header__actions">
+    {% if shop.customer_accounts_enabled %}
+      <a class="elysian-header__icon" href="{{ routes.account_url }}" aria-label="{{ 'customers.account.title' | t }}">
+        {{ 'icon-account.svg' | inline_asset_content }}
+      </a>
+    {% endif %}
+
+    <a class="elysian-header__ticket" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+      {{ section.settings.cta_label }}
+      <svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+    </a>
+
+    <a class="elysian-header__icon elysian-header__cart" href="{{ routes.cart_url }}" aria-label="{{ 'cart.title' | t }}">
+      {{ 'icon-cart.svg' | inline_asset_content }}
+      {% if cart.item_count > 0 %}<span>{{ cart.item_count }}</span>{% endif %}
+    </a>
+
+    <button class="elysian-header__menu-button" type="button" aria-expanded="false" aria-controls="ElysianMenu-{{ section.id }}" aria-label="{{ 'accessibility.open_menu' | t }}" data-elysian-menu-button>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+{% stylesheet %}
+  .elysian-announcement {
+    position: relative;
+    z-index: 11;
+    display: block;
+    padding: 0.65rem var(--site-edge);
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-label);
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .elysian-announcement:hover {
+    color: var(--color-background);
+  }
+
+  .elysian-header {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: minmax(7rem, 1fr) auto minmax(7rem, 1fr);
+    align-items: center;
+    min-height: 5.75rem;
+    padding: 0 var(--site-edge);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 22%, transparent);
+    background: var(--color-background);
+  }
+
+  .elysian-header--overlay {
+    position: absolute;
+    inset: 0 0 auto;
+    background: transparent;
+  }
+
+  .elysian-header--overlay.elysian-header--with-announcement {
+    top: 2.1rem;
+  }
+
+  .elysian-header__logo {
+    display: inline-flex;
+    width: fit-content;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+  }
+
+  .elysian-header__logo img {
+    width: var(--logo-width, 7rem);
+    max-width: 10rem;
+    height: auto;
+  }
+
+  .elysian-header__nav {
+    display: flex;
+    width: 100%;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  }
+
+  .elysian-header__nav-link--contact {
+    order: 10;
+  }
+
+  .elysian-header__nav a,
+  .elysian-header__ticket {
+    color: inherit;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-label);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 220ms ease;
+  }
+
+  .elysian-header__nav a:hover,
+  .elysian-header__nav a[aria-current='page'] {
+    color: var(--color-accent);
+  }
+
+  .elysian-header__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    grid-column: 3;
+    grid-row: 1;
+    gap: 0.8rem;
+  }
+
+  .elysian-header__ticket {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.75rem 0.95rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 58%, transparent);
+    border-radius: 999px;
+    transition: background 220ms ease, color 220ms ease, transform 220ms ease;
+  }
+
+  .elysian-header__ticket svg {
+    color: var(--color-accent);
+  }
+
+  .elysian-header__ticket:hover {
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  .elysian-header__ticket:active,
+  .elysian-header__icon:active,
+  .elysian-header__menu-button:active {
+    transform: translateY(1px);
+  }
+
+  .elysian-header__icon {
+    position: relative;
+    display: inline-grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    color: inherit;
+  }
+
+  .elysian-header__icon svg {
+    width: 1.45rem;
+  }
+
+  .elysian-header__cart span {
+    position: absolute;
+    top: -0.15rem;
+    right: -0.15rem;
+    display: grid;
+    min-width: 1.15rem;
+    min-height: 1.15rem;
+    padding: 0.1rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-size: 0.62rem;
+    font-weight: 700;
+  }
+
+  .elysian-header__menu-button {
+    display: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0.5rem 0.15rem;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .elysian-header__menu-button span {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: 0.35rem 0;
+    background: currentcolor;
+    transition: transform 220ms ease;
+  }
+
+  .elysian-header__menu-button[aria-expanded='true'] span:first-child {
+    transform: translateY(0.35rem) rotate(45deg);
+  }
+
+  .elysian-header__menu-button[aria-expanded='true'] span:last-child {
+    transform: translateY(-0.35rem) rotate(-45deg);
+  }
+
+  @media (max-width: 800px) {
+    .elysian-announcement {
+      overflow: hidden;
+      padding-inline: var(--site-edge);
+      font-size: 0.56rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .elysian-header {
+      grid-template-columns: 1fr auto 1fr;
+      min-height: 4.5rem;
+      padding-inline: var(--site-edge);
+    }
+
+    .elysian-header__nav {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 2.5rem var(--site-edge);
+      border-top: 1px solid color-mix(in srgb, var(--color-foreground) 16%, transparent);
+      visibility: hidden;
+      opacity: 0;
+      background: var(--color-background);
+      transform: translate3d(-1rem, 0, 0);
+      transition: opacity 250ms ease, transform 250ms ease, visibility 250ms;
+    }
+
+    .elysian-header__actions {
+      display: contents;
+    }
+
+    .elysian-header__cart {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    .elysian-header__nav.is-open {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+    }
+
+    .elysian-header__nav a {
+      font-family: var(--font-primary-family);
+      font-style: var(--font-primary-style);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: var(--letter-spacing-label);
+      text-transform: uppercase;
+    }
+
+    .elysian-header__ticket,
+    .elysian-header__actions > .elysian-header__icon:first-child {
+      display: none;
+    }
+
+    .elysian-header__menu-button {
+      display: block;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0.25rem 0;
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('[data-elysian-header]').forEach((header) => {
+    const button = header.querySelector('[data-elysian-menu-button]');
+    const menu = header.querySelector('[data-elysian-menu]');
+    if (!button || !menu) return;
+
+    const closeMenu = () => {
+      button.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('is-open');
+    };
+
+    button.addEventListener('click', () => {
+      const isOpen = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!isOpen));
+      menu.classList.toggle('is-open', !isOpen);
+    });
+
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+    window.matchMedia('(min-width: 801px)').addEventListener('change', closeMenu);
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "t:labels.menu", "default": "main-menu" },
+    { "type": "text", "id": "cta_label", "label": "t:labels.button_label", "default": "Tickets" },
+    { "type": "url", "id": "cta_link", "label": "t:labels.button_link" },
+    { "type": "checkbox", "id": "show_announcement", "label": "Show clothing ticket announcement", "default": true },
+    { "type": "text", "id": "announcement_text", "label": "Announcement text", "default": "Buy the drop — get a ticket to the next Elysian event" },
+    { "type": "url", "id": "announcement_link", "label": "Announcement link" }
+  ]
+}
+{% endschema %}

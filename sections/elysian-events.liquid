@@ -1,0 +1,246 @@
+<section class="elysian-events full-width" id="events">
+  <header class="elysian-events__heading elysian-reveal">
+    <p><span>{{ section.settings.number }}</span>{{ section.settings.eyebrow }}</p>
+    <h2 class="elysian-display">{{ section.settings.heading | newline_to_br }}</h2>
+  </header>
+
+  <div class="elysian-events__list">
+    {% for block in section.blocks %}
+      <article class="elysian-event elysian-reveal" {{ block.shopify_attributes }}>
+        <div class="elysian-event__date">
+          <b class="elysian-display">{{ block.settings.day }}</b>
+          <span>{{ block.settings.month }}<br>{{ block.settings.year }}</span>
+        </div>
+        <div class="elysian-event__name">
+          <small>{{ block.settings.label }}</small>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.location }} · {{ block.settings.time }}</p>
+        </div>
+        <div class="elysian-event__art{% unless block.settings.image %} elysian-event__art--graphic{% endunless %}">
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 600, 900', alt: block.settings.title }}
+          {% elsif forloop.first %}
+            <img src="{{ 'elysian-manifesto.jpg' | asset_url }}" width="1600" height="2400" loading="lazy" alt="{{ block.settings.title | escape }}">
+          {% else %}
+            <span class="elysian-display">{{ block.settings.art_text | newline_to_br }}</span>
+          {% endif %}
+        </div>
+        {% if block.settings.link %}
+          <a class="elysian-event__button" href="{{ block.settings.link }}">
+            {{ block.settings.link_label }}
+            <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </a>
+        {% endif %}
+      </article>
+    {% else %}
+      <p class="elysian-events__empty">{{ 'sections.events.empty' | t }}</p>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .elysian-events {
+    padding: clamp(6rem, 10vw, 10rem) var(--site-edge);
+  }
+
+  .elysian-events__heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: clamp(3rem, 6vw, 6rem);
+  }
+
+  .elysian-events__heading p {
+    font-size: 0.68rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-events__heading p span {
+    margin-right: 2rem;
+    color: var(--color-accent);
+  }
+
+  .elysian-events__heading h2 {
+    max-width: 10ch;
+    font-size: clamp(3.8rem, 8vw, 8.5rem);
+    text-align: right;
+  }
+
+  .elysian-event {
+    display: grid;
+    grid-template-columns: 9rem minmax(14rem, 1.2fr) minmax(15rem, 1fr) 10rem;
+    align-items: center;
+    min-height: 15rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    transition: background 300ms ease;
+  }
+
+  .elysian-event:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  .elysian-event:hover {
+    background: var(--color-surface);
+  }
+
+  .elysian-event__date {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .elysian-event__date b {
+    font-size: 4.25rem;
+  }
+
+  .elysian-event__date span,
+  .elysian-event__name small {
+    color: color-mix(in srgb, var(--color-foreground) 58%, transparent);
+    font-size: 0.64rem;
+    line-height: 1.5;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-event__name h3 {
+    margin: 0.25rem 0;
+    font-family: var(--font-display-family);
+    font-style: var(--font-display-style);
+    font-size: clamp(1.8rem, 3vw, 3.35rem);
+    font-weight: var(--font-display-weight);
+    letter-spacing: var(--letter-spacing-display);
+    text-transform: uppercase;
+  }
+
+  .elysian-event__name p {
+    color: color-mix(in srgb, var(--color-foreground) 50%, transparent);
+    font-size: 0.78rem;
+  }
+
+  .elysian-event__art {
+    height: 11.5rem;
+    margin-right: 2rem;
+    overflow: hidden;
+  }
+
+  .elysian-event__art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .elysian-event:hover .elysian-event__art img {
+    transform: scale(1.035);
+  }
+
+  .elysian-event__art--graphic {
+    display: grid;
+    place-items: center;
+    background: var(--color-accent);
+    color: var(--color-background);
+    text-align: center;
+  }
+
+  .elysian-event__art--graphic span {
+    font-size: 2.4rem;
+    transform: rotate(-6deg);
+  }
+
+  .elysian-event__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.95rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 32%, transparent);
+    border-radius: 999px;
+    font-size: 0.66rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-decoration: none;
+    transition: background 220ms ease, color 220ms ease, transform 220ms ease;
+  }
+
+  .elysian-event__button:hover {
+    background: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .elysian-event__button:active {
+    transform: translateY(1px);
+  }
+
+  .elysian-event__button svg {
+    width: 1rem;
+  }
+
+  .elysian-events__empty {
+    padding: 3rem 0;
+    border-block: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  @media (max-width: 920px) {
+    .elysian-event {
+      grid-template-columns: 6rem 1fr;
+      padding: 2rem 0;
+    }
+
+    .elysian-event__art,
+    .elysian-event__button {
+      grid-column: 1 / -1;
+    }
+
+    .elysian-event__art {
+      margin: 1.5rem 0;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .elysian-events__heading {
+      display: block;
+    }
+
+    .elysian-events__heading h2 {
+      margin-top: 3rem;
+      font-size: 18vw;
+      text-align: left;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.elysian_events.name",
+  "settings": [
+    { "type": "text", "id": "number", "label": "t:labels.section_number", "default": "01" },
+    { "type": "text", "id": "eyebrow", "label": "t:labels.eyebrow", "default": "Upcoming" },
+    { "type": "textarea", "id": "heading", "label": "t:labels.heading", "default": "Meet us\noutside." }
+  ],
+  "blocks": [
+    {
+      "type": "event",
+      "name": "t:blocks.event.name",
+      "settings": [
+        { "type": "text", "id": "day", "label": "t:labels.day", "default": "05" },
+        { "type": "text", "id": "month", "label": "t:labels.month", "default": "SEP" },
+        { "type": "text", "id": "year", "label": "t:labels.year", "default": "2026" },
+        { "type": "text", "id": "label", "label": "t:labels.event_label", "default": "Next event" },
+        { "type": "text", "id": "title", "label": "t:labels.title", "default": "Bliss Vilamoura" },
+        { "type": "text", "id": "location", "label": "t:labels.event_location", "default": "Algarve" },
+        { "type": "text", "id": "time", "label": "t:labels.time", "default": "17:00—02:00" },
+        { "type": "image_picker", "id": "image", "label": "t:labels.image" },
+        { "type": "textarea", "id": "art_text", "label": "t:labels.art_text", "default": "After\nglow" },
+        { "type": "text", "id": "link_label", "label": "t:labels.button_label", "default": "Get tickets" },
+        { "type": "url", "id": "link", "label": "t:labels.button_link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.elysian_events.name",
+      "blocks": [{ "type": "event" }, { "type": "event" }]
+    }
+  ]
+}
+{% endschema %}

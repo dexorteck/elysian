@@ -1,0 +1,50 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Elysian",
+    "theme_version": "1.0.0",
+    "theme_author": "Elysian",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "t:general.brand",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "t:labels.logo" },
+      { "type": "range", "id": "logo_width", "min": 72, "max": 220, "step": 4, "unit": "px", "label": "t:labels.logo_width", "default": 112 }
+    ]
+  },
+  {
+    "name": "t:general.typography",
+    "settings": [
+      { "type": "font_picker", "id": "type_primary_font", "default": "barlow_semi_condensed_n4", "label": "t:general.primary" },
+      { "type": "font_picker", "id": "type_display_font", "default": "barlow_condensed_i9", "label": "t:labels.display_font" }
+    ]
+  },
+  {
+    "name": "t:general.layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "max_page_width",
+        "label": "t:labels.page_width",
+        "options": [
+          { "value": "90rem", "label": "t:options.page_width.narrow" },
+          { "value": "110rem", "label": "t:options.page_width.wide" }
+        ],
+        "default": "90rem"
+      },
+      { "type": "range", "id": "min_page_margin", "min": 16, "max": 64, "step": 2, "unit": "px", "label": "t:labels.page_margin", "default": 24 }
+    ]
+  },
+  {
+    "name": "t:general.colors",
+    "settings": [
+      { "type": "color", "id": "background_color", "default": "#090909", "label": "t:labels.background" },
+      { "type": "color", "id": "foreground_color", "default": "#F0EADF", "label": "t:labels.foreground" },
+      { "type": "color", "id": "accent_color", "default": "#f20000", "label": "t:labels.accent" },
+      { "type": "color", "id": "surface_color", "default": "#111111", "label": "t:labels.surface" },
+      { "type": "range", "id": "input_corner_radius", "min": 0, "max": 12, "step": 1, "unit": "px", "label": "t:labels.input_corner_radius", "default": 0 }
+    ]
+  }
+]

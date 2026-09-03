@@ -1,0 +1,256 @@
+{% liquid
+  assign merch_collection = section.settings.collection
+  if merch_collection == blank
+    assign merch_collection = collections.all
+  endif
+%}
+
+<section class="elysian-merch full-width" id="merch">
+  <header class="elysian-merch__heading elysian-reveal">
+    <p><span>{{ section.settings.number }}</span>{{ section.settings.eyebrow }}</p>
+    <h2 class="elysian-display">{{ section.settings.heading | newline_to_br }}</h2>
+  </header>
+
+  <div class="elysian-merch__grid">
+    <div class="elysian-merch__image elysian-reveal">
+      {% if section.settings.image %}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '480, 760, 1100, 1400', alt: section.settings.image_alt }}
+      {% else %}
+        <img src="{{ 'tee-1-shop.jpg' | asset_url }}" width="1200" height="1500" loading="lazy" alt="{{ section.settings.image_alt | escape }}">
+      {% endif %}
+      {% if section.settings.badge != blank %}<span>{{ section.settings.badge }}</span>{% endif %}
+    </div>
+
+    <div class="elysian-merch__products elysian-reveal">
+      <p class="elysian-merch__note">{{ section.settings.note | newline_to_br }}</p>
+      <div class="elysian-merch__list">
+        {% for product in merch_collection.products limit: section.settings.products_to_show %}
+          {% assign minimum_price = product.price_min | money %}
+          <a class="elysian-merch__product" href="{{ product.url }}">
+            <span>{{ forloop.index | prepend: '0' }}</span>
+            <div>
+              <h3>{{ product.title }}</h3>
+              <p>
+                {% if product.available %}
+                  {{ product.vendor | default: product.type }}
+                {% else %}
+                  {{ 'products.product.sold_out' | t }}
+                {% endif %}
+              </p>
+            </div>
+            <b>
+              {% if product.price_varies %}{{ 'products.product.from_price_html' | t: price: minimum_price }}{% else %}{{ product.price | money }}{% endif %}
+            </b>
+          </a>
+        {% else %}
+          <div class="elysian-merch__empty">
+            <p>{{ 'sections.merch.empty' | t }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if merch_collection != blank %}
+        <a class="elysian-merch__button" href="{{ merch_collection.url }}">
+          {{ section.settings.button_label }}
+          <svg aria-hidden="true" viewBox="0 0 18 18"><path d="M3 15 15 3M7 3h8v8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .elysian-merch {
+    padding: clamp(6rem, 10vw, 10rem) var(--site-edge);
+    background: var(--color-surface);
+  }
+
+  .elysian-merch__heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: clamp(3rem, 6vw, 6rem);
+  }
+
+  .elysian-merch__heading p {
+    font-size: 0.68rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-merch__heading p span {
+    margin-right: 2rem;
+    color: var(--color-accent);
+  }
+
+  .elysian-merch__heading h2 {
+    font-size: clamp(3.8rem, 8vw, 8.5rem);
+    text-align: right;
+  }
+
+  .elysian-merch__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: clamp(3rem, 7vw, 8rem);
+  }
+
+  .elysian-merch__image {
+    position: relative;
+    min-height: 48rem;
+    overflow: hidden;
+  }
+
+  .elysian-merch__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .elysian-merch__image > span {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    padding: 0.7rem 1rem;
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-family: var(--font-display-family);
+    font-style: var(--font-display-style);
+    font-size: 0.65rem;
+    font-weight: var(--font-display-weight);
+    letter-spacing: var(--letter-spacing-label);
+  }
+
+  .elysian-merch__products {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .elysian-merch__note {
+    max-width: 22rem;
+    margin-bottom: auto;
+    font-family: var(--font-display-family);
+    font-style: var(--font-display-style);
+    font-size: clamp(1.5rem, 2.4vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  .elysian-merch__product {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    align-items: center;
+    padding: 1.6rem 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    text-decoration: none;
+  }
+
+  .elysian-merch__product:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  .elysian-merch__product > span {
+    color: var(--color-accent);
+    font-size: 0.65rem;
+  }
+
+  .elysian-merch__product h3 {
+    font-family: var(--font-display-family);
+    font-style: var(--font-display-style);
+    font-size: 1.2rem;
+    font-weight: var(--font-display-weight);
+    letter-spacing: var(--letter-spacing-display);
+    text-transform: uppercase;
+  }
+
+  .elysian-merch__product p {
+    margin-top: 0.3rem;
+    color: color-mix(in srgb, var(--color-foreground) 44%, transparent);
+    font-size: 0.75rem;
+  }
+
+  .elysian-merch__product b {
+    font-size: 0.88rem;
+  }
+
+  .elysian-merch__empty {
+    padding: 2rem 0;
+    border-block: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    color: color-mix(in srgb, var(--color-foreground) 60%, transparent);
+  }
+
+  .elysian-merch__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding: 1.4rem;
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-label);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: transform 220ms ease, background 220ms ease;
+  }
+
+  .elysian-merch__button:hover {
+    background: var(--color-foreground);
+  }
+
+  .elysian-merch__button:active {
+    transform: translateY(1px);
+  }
+
+  .elysian-merch__button svg {
+    width: 1.2rem;
+  }
+
+  @media (max-width: 800px) {
+    .elysian-merch__heading {
+      display: block;
+    }
+
+    .elysian-merch__heading h2 {
+      margin-top: 3rem;
+      font-size: 18vw;
+      text-align: left;
+    }
+
+    .elysian-merch__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .elysian-merch__image {
+      min-height: 36rem;
+    }
+
+    .elysian-merch__products {
+      min-height: 30rem;
+    }
+
+    .elysian-merch__note {
+      margin-bottom: 5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.elysian_merch.name",
+  "settings": [
+    { "type": "text", "id": "number", "label": "t:labels.section_number", "default": "03" },
+    { "type": "text", "id": "eyebrow", "label": "t:labels.eyebrow", "default": "Wear the feeling" },
+    { "type": "textarea", "id": "heading", "label": "t:labels.heading", "default": "The\nmerch drop." },
+    { "type": "image_picker", "id": "image", "label": "t:labels.image" },
+    { "type": "text", "id": "image_alt", "label": "t:labels.image_alt", "default": "Black T-shirt and cap from the Elysian collection" },
+    { "type": "text", "id": "badge", "label": "t:labels.badge", "default": "DROP 001" },
+    { "type": "textarea", "id": "note", "label": "t:labels.note", "default": "Limited pieces.\nMade for after dark." },
+    { "type": "collection", "id": "collection", "label": "t:labels.collection" },
+    { "type": "range", "id": "products_to_show", "label": "t:labels.products_to_show", "min": 1, "max": 6, "step": 1, "default": 2 },
+    { "type": "text", "id": "button_label", "label": "t:labels.button_label", "default": "Shop the drop" }
+  ],
+  "presets": [{ "name": "t:sections.elysian_merch.name" }]
+}
+{% endschema %}

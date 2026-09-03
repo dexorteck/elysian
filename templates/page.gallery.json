@@ -1,0 +1,49 @@
+{
+  "sections": {
+    "main": {
+      "type": "elysian-gallery",
+      "settings": { "heading": "Gallery", "event_one": "1 Year", "event_two": "Loft Marvila" },
+      "blocks": {
+  "photo-1": { "type": "photo", "settings": { "asset": "gallery-1year-1.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-2": { "type": "photo", "settings": { "asset": "gallery-1year-2.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-3": { "type": "photo", "settings": { "asset": "gallery-1year-3.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-4": { "type": "photo", "settings": { "asset": "gallery-1year-4.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-5": { "type": "photo", "settings": { "asset": "gallery-1year-5.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-6": { "type": "photo", "settings": { "asset": "gallery-1year-6.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-7": { "type": "photo", "settings": { "asset": "gallery-1year-7.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-8": { "type": "photo", "settings": { "asset": "gallery-1year-8.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-9": { "type": "photo", "settings": { "asset": "gallery-1year-9.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-10": { "type": "photo", "settings": { "asset": "gallery-1year-10.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-11": { "type": "photo", "settings": { "asset": "gallery-1year-11.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-12": { "type": "photo", "settings": { "asset": "gallery-1year-12.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-13": { "type": "photo", "settings": { "asset": "gallery-1year-13.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-14": { "type": "photo", "settings": { "asset": "gallery-1year-14.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-15": { "type": "photo", "settings": { "asset": "gallery-1year-15.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-16": { "type": "photo", "settings": { "asset": "gallery-1year-16.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-17": { "type": "photo", "settings": { "asset": "gallery-1year-17.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-18": { "type": "photo", "settings": { "asset": "gallery-1year-18.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-19": { "type": "photo", "settings": { "asset": "gallery-1year-19.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-20": { "type": "photo", "settings": { "asset": "gallery-1year-20.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-21": { "type": "photo", "settings": { "asset": "gallery-1year-21.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-22": { "type": "photo", "settings": { "asset": "gallery-1year-22.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-23": { "type": "photo", "settings": { "asset": "gallery-1year-23.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-24": { "type": "photo", "settings": { "asset": "gallery-1year-24.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-25": { "type": "photo", "settings": { "asset": "gallery-1year-25.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-26": { "type": "photo", "settings": { "asset": "gallery-1year-26.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-27": { "type": "photo", "settings": { "asset": "gallery-1year-27.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-28": { "type": "photo", "settings": { "asset": "gallery-1year-28.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-29": { "type": "photo", "settings": { "asset": "gallery-1year-29.jpg", "event": "1 Year", "alt_text": "Elysian 1 Year" } },
+  "photo-30": { "type": "photo", "settings": { "asset": "gallery-loft-1.jpg", "event": "Loft Marvila", "alt_text": "Elysian Loft Marvila" } },
+  "photo-31": { "type": "photo", "settings": { "asset": "gallery-loft-2.jpg", "event": "Loft Marvila", "alt_text": "Elysian Loft Marvila" } },
+  "photo-32": { "type": "photo", "settings": { "asset": "gallery-loft-3.jpg", "event": "Loft Marvila", "alt_text": "Elysian Loft Marvila" } },
+  "photo-33": { "type": "photo", "settings": { "asset": "gallery-loft-4.jpg", "event": "Loft Marvila", "alt_text": "Elysian Loft Marvila" } },
+  "photo-34": { "type": "photo", "settings": { "asset": "gallery-loft-5.jpg", "event": "Loft Marvila", "alt_text": "Elysian Loft Marvila" } },
+  "photo-35": { "type": "photo", "settings": { "asset": "gallery-loft-6.jpg", "event": "Loft Marvila", "alt_text": "Elysian Loft Marvila" } },
+  "photo-36": { "type": "photo", "settings": { "asset": "gallery-loft-7.jpg", "event": "Loft Marvila", "alt_text": "Elysian Loft Marvila" } },
+  "photo-37": { "type": "photo", "settings": { "asset": "gallery-loft-8.jpg", "event": "Loft Marvila", "alt_text": "Elysian Loft Marvila" } }
+      },
+      "block_order": ["photo-1", "photo-2", "photo-3", "photo-4", "photo-5", "photo-6", "photo-7", "photo-8", "photo-9", "photo-10", "photo-11", "photo-12", "photo-13", "photo-14", "photo-15", "photo-16", "photo-17", "photo-18", "photo-19", "photo-20", "photo-21", "photo-22", "photo-23", "photo-24", "photo-25", "photo-26", "photo-27", "photo-28", "photo-29", "photo-34", "photo-30", "photo-31", "photo-32", "photo-33", "photo-35", "photo-36", "photo-37"]
+    }
+  },
+  "order": ["main"]
+}

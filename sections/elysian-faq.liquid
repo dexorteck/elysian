@@ -1,0 +1,176 @@
+<section class="elysian-faq full-width" id="faqs">
+  <div class="elysian-faq__visual" aria-hidden="true">
+    <img class="elysian-faq__visual-image elysian-faq__visual-image--one" src="{{ 'gallery-1year-3.jpg' | asset_url }}" width="1200" height="1800" loading="lazy" alt="">
+    <img class="elysian-faq__visual-image elysian-faq__visual-image--two" src="{{ 'gallery-faq-loft.jpg' | asset_url }}" width="933" height="1400" loading="lazy" alt="">
+  </div>
+
+  <div class="elysian-faq__list">
+    {% for block in section.blocks %}
+      <details class="elysian-faq__item" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+        <summary>
+          <span>{{ block.settings.question }}</span>
+          <span class="elysian-faq__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="elysian-faq__answer">{{ block.settings.answer }}</div>
+      </details>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .elysian-faq {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(3rem, 8vw, 9rem);
+    padding: clamp(5rem, 9vw, 9rem) var(--site-edge);
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 14%, transparent);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .elysian-faq__eyebrow {
+    margin-bottom: 1rem;
+    color: color-mix(in srgb, var(--color-foreground) 52%, transparent);
+    font-size: 0.68rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-faq__copy {
+    max-width: 26rem;
+    margin-top: 2rem;
+    color: color-mix(in srgb, var(--color-foreground) 62%, transparent);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .elysian-faq__list {
+    width: 100%;
+    align-self: center;
+  }
+
+  .elysian-faq__visual {
+    position: relative;
+    min-height: clamp(20rem, 34vw, 34rem);
+  }
+
+  .elysian-faq__visual-image {
+    position: absolute;
+    width: min(62%, 16rem);
+    height: clamp(18rem, 28vw, 28rem);
+    object-fit: cover;
+  }
+
+  .elysian-faq__visual-image--one {
+    top: 0;
+    left: 6%;
+    transform: rotate(-5deg);
+  }
+
+  .elysian-faq__visual-image--two {
+    right: 5%;
+    bottom: 0;
+    transform: rotate(6deg);
+  }
+
+  .elysian-faq__item {
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  .elysian-faq__item:last-child {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  }
+
+  .elysian-faq summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.25rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+  }
+
+  .elysian-faq summary::-webkit-details-marker { display: none; }
+
+  .elysian-faq__icon {
+    position: relative;
+    flex: 0 0 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .elysian-faq__icon::before,
+  .elysian-faq__icon::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    content: "";
+    transform: translate(-50%, -50%);
+    transition: transform 220ms ease;
+  }
+
+  .elysian-faq__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .elysian-faq__item[open] .elysian-faq__icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+
+  .elysian-faq__answer {
+    max-width: 42rem;
+    padding: 0 2rem 1.5rem 0;
+    color: color-mix(in srgb, var(--color-foreground) 62%, transparent);
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    .elysian-faq {
+      display: block;
+      padding-top: 4.5rem;
+      padding-bottom: 4.5rem;
+    }
+
+    .elysian-faq__visual {
+      min-height: 18rem;
+      margin-bottom: 3rem;
+    }
+
+    .elysian-faq__copy { margin-top: 1.5rem; }
+    .elysian-faq__list { margin-top: 0; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Elysian FAQs",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FAQs" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "FAQs" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Everything you need to know before you join us." }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How do I hear about the next event?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Join the club to receive first access to event announcements and ticket releases." },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Elysian FAQs",
+      "blocks": [
+        { "type": "faq", "settings": { "question": "How do I hear about the next event?", "answer": "Join the club to receive first access to event announcements and ticket releases." } },
+        { "type": "faq", "settings": { "question": "Do clothing purchases include an event ticket?", "answer": "Selected drops include a ticket to the next Elysian event. The offer is shown on the product and at checkout." } },
+        { "type": "faq", "settings": { "question": "How long does shipping take?", "answer": "Orders are prepared in Lisbon and dispatched as soon as possible. You will receive tracking details by email." } },
+        { "type": "faq", "settings": { "question": "Can I return an item?", "answer": "Contact us within 14 days of delivery and we will guide you through the return process." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

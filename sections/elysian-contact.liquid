@@ -1,0 +1,240 @@
+<section class="elysian-contact full-width">
+  {% form 'contact', class: 'elysian-contact__form' %}
+      {% if form.posted_successfully? %}
+        <div class="elysian-contact__form-heading">
+          <p class="elysian-contact__success">{{ section.settings.success_message }}</p>
+        </div>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="elysian-contact__errors" role="alert">{{ form.errors | default_errors }}</div>
+      {% endif %}
+
+      <label for="ContactName-{{ section.id }}">{{ section.settings.name_label }}</label>
+      <input id="ContactName-{{ section.id }}" type="text" name="contact[name]" autocomplete="name" required>
+
+      <label for="ContactEmail-{{ section.id }}">{{ section.settings.email_label }}</label>
+      <input id="ContactEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required>
+
+      <label for="ContactMessage-{{ section.id }}">{{ section.settings.message_label }}</label>
+      <textarea id="ContactMessage-{{ section.id }}" name="contact[body]" rows="6" required></textarea>
+
+      <button type="submit">
+        {{ section.settings.submit_label }}
+        <svg aria-hidden="true" viewBox="0 0 18 18"><path d="M3 15 15 3M7 3h8v8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+  {% endform %}
+</section>
+
+{% stylesheet %}
+  .elysian-contact {
+    min-height: min(58rem, 100svh);
+    padding: clamp(5rem, 9vw, 9rem) var(--site-edge);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .elysian-contact__header {
+    margin-bottom: clamp(2rem, 4vw, 4rem);
+  }
+
+  .elysian-contact__header > p {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-contact__header h1 {
+    margin: 1.25rem 0;
+    font-size: clamp(3rem, 6vw, 6rem);
+  }
+
+  .elysian-contact__layout {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(3rem, 9vw, 10rem);
+    align-items: start;
+  }
+
+  .elysian-contact__intro {
+    grid-column: 1 / span 5;
+  }
+
+  .elysian-contact__statement {
+    max-width: 14ch;
+    margin-bottom: 2.5rem;
+    font-family: var(--font-display-family);
+    font-style: var(--font-display-style);
+    font-size: clamp(2rem, 3.5vw, 4rem);
+    font-weight: var(--font-display-weight);
+    letter-spacing: var(--letter-spacing-display);
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .elysian-contact__copy {
+    max-width: 34rem;
+    color: color-mix(in srgb, var(--color-foreground) 68%, transparent);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .elysian-contact__copy > * + * {
+    margin-top: 1.15rem;
+  }
+
+  .elysian-contact__details {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: clamp(4rem, 8vw, 8rem);
+    padding-top: 1rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 20%, transparent);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .elysian-contact__details p {
+    margin-bottom: 0.35rem;
+    color: color-mix(in srgb, var(--color-foreground) 45%, transparent);
+  }
+
+  .elysian-contact__details a {
+    text-decoration: none;
+  }
+
+  .elysian-contact__details span {
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+  }
+
+  .elysian-contact__form {
+    display: grid;
+    width: min(100%, 52rem);
+    margin-inline: auto;
+    gap: 0.7rem;
+  }
+
+  .elysian-contact__form-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.65rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-contact__success {
+    color: var(--color-accent);
+  }
+
+  .elysian-contact__errors {
+    color: var(--color-accent);
+    font-size: 0.75rem;
+  }
+
+  .elysian-contact__form label {
+    margin-top: 0.8rem;
+    font-size: 0.62rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-contact__form input,
+  .elysian-contact__form textarea {
+    width: 100%;
+    padding: 0.9rem 0;
+    border: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 28%, transparent);
+    border-radius: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 1rem;
+    resize: vertical;
+  }
+
+  .elysian-contact__form input:focus,
+  .elysian-contact__form textarea:focus {
+    border-color: var(--color-accent);
+  }
+
+  .elysian-contact__form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border: 0;
+    border-top: 1px solid currentcolor;
+    border-bottom: 1px solid currentcolor;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-label);
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .elysian-contact__form button svg {
+    width: 1.2rem;
+    color: var(--color-accent);
+    transition: transform 220ms ease;
+  }
+
+  .elysian-contact__form button:hover svg {
+    transform: translate3d(0.2rem, -0.2rem, 0);
+  }
+
+  .elysian-contact__form button:active {
+    transform: translateY(1px);
+  }
+
+  @media (max-width: 800px) {
+    .elysian-contact {
+      min-height: auto;
+      padding-top: 6rem;
+    }
+
+    .elysian-contact__header,
+    .elysian-contact__layout {
+      display: block;
+    }
+
+    .elysian-contact__header h1 {
+      margin-top: 2rem;
+      font-size: 14vw;
+    }
+
+    .elysian-contact__form {
+      margin-top: 5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Elysian contact",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "t:labels.eyebrow", "default": "Get in touch" },
+    { "type": "textarea", "id": "heading", "label": "t:labels.heading", "default": "Let's talk." },
+    { "type": "textarea", "id": "statement", "label": "Statement", "default": "The night is always better together." },
+    { "type": "richtext", "id": "body", "label": "t:labels.body", "default": "<p>Questions about an event, a collaboration or the next drop? Send us a note and we will get back to you.</p>" },
+    { "type": "text", "id": "details_label", "label": "Details label", "default": "Say hello" },
+    { "type": "text", "id": "email", "label": "Email", "default": "hello@elysian.groove" },
+    { "type": "text", "id": "location", "label": "Location", "default": "Lisbon, Portugal" },
+    { "type": "text", "id": "form_label", "label": "Form label", "default": "Send a message" },
+    { "type": "text", "id": "name_label", "label": "Name label", "default": "Your name" },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email address" },
+    { "type": "text", "id": "message_label", "label": "Message label", "default": "Message" },
+    { "type": "text", "id": "submit_label", "label": "Submit label", "default": "Send it" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Message sent. See you soon." }
+  ],
+  "presets": [{ "name": "Elysian contact" }]
+}
+{% endschema %}

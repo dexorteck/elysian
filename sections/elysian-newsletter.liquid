@@ -1,0 +1,134 @@
+<section class="elysian-newsletter full-width elysian-reveal">
+  <div class="elysian-newsletter__content">
+    <p>{{ section.settings.eyebrow }}</p>
+    <h2 class="elysian-display">{{ section.settings.heading | newline_to_br }}</h2>
+
+    {% form 'customer', class: 'elysian-newsletter__form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label for="NewsletterEmail-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
+      <div class="elysian-newsletter__field">
+        <input
+          id="NewsletterEmail-{{ section.id }}"
+          type="email"
+          name="contact[email]"
+          value="{% if customer %}{{ customer.email }}{% endif %}"
+          autocapitalize="off"
+          autocomplete="email"
+          placeholder="{{ 'newsletter.placeholder' | t }}"
+          aria-describedby="NewsletterMessage-{{ section.id }}"
+          required
+        >
+        <button type="submit" aria-label="{{ 'newsletter.submit' | t }}">
+          <svg aria-hidden="true" viewBox="0 0 28 28"><path d="M6 22 22 6M10 6h12v12" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      </div>
+
+      <div id="NewsletterMessage-{{ section.id }}" class="elysian-newsletter__message" role="status">
+        {% if form.posted_successfully? %}
+          {{ 'newsletter.success' | t }}
+        {% elsif form.errors %}
+          {{ form.errors | default_errors }}
+        {% else %}
+          {{ section.settings.note }}
+        {% endif %}
+      </div>
+    {% endform %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .elysian-newsletter {
+    padding: clamp(7rem, 12vw, 12rem) var(--site-edge);
+    background: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .elysian-newsletter__content > p,
+  .elysian-newsletter__form > label {
+    font-size: 0.65rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-newsletter h2 {
+    max-width: 10ch;
+    margin: clamp(3rem, 6vw, 5rem) 0;
+    font-size: clamp(5rem, 14vw, 14rem);
+  }
+
+  .elysian-newsletter__form {
+    max-width: 42rem;
+  }
+
+  .elysian-newsletter__field {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid currentcolor;
+  }
+
+  .elysian-newsletter__field input {
+    flex: 1;
+    min-width: 0;
+    padding: 1rem 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+  }
+
+  .elysian-newsletter__field input::placeholder {
+    color: color-mix(in srgb, var(--color-background) 62%, transparent);
+  }
+
+  .elysian-newsletter__field button {
+    display: grid;
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: 0.5rem;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 220ms ease;
+  }
+
+  .elysian-newsletter__field button:hover {
+    transform: translate3d(0.2rem, -0.2rem, 0);
+  }
+
+  .elysian-newsletter__field button:active {
+    transform: translateY(1px);
+  }
+
+  .elysian-newsletter__field svg {
+    width: 2rem;
+  }
+
+  .elysian-newsletter__message {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+  }
+
+  .elysian-newsletter__message ul {
+    padding-left: 1rem;
+  }
+
+  @media (max-width: 680px) {
+    .elysian-newsletter h2 {
+      font-size: 22vw;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.elysian_newsletter.name",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "t:labels.eyebrow", "default": "Don't miss the next sunset." },
+    { "type": "textarea", "id": "heading", "label": "t:labels.heading", "default": "Stay in\nthe loop." },
+    { "type": "text", "id": "note", "label": "t:labels.note", "default": "No spam. Just parties." }
+  ],
+  "presets": [{ "name": "t:sections.elysian_newsletter.name" }]
+}
+{% endschema %}

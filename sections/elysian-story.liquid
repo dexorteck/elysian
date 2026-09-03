@@ -1,0 +1,67 @@
+<section class="elysian-story full-width">
+  <div class="elysian-story__content">
+    <div class="elysian-story__body">{{ section.settings.body }}</div>
+    <a class="elysian-story__link" href="{{ section.settings.link | default: '/pages/about' }}">
+      {{ section.settings.link_label }}
+      <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+    </a>
+  </div>
+</section>
+
+{% stylesheet %}
+  .elysian-story {
+    display: block;
+    padding: clamp(3rem, 4vw, 4rem) var(--site-edge);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .elysian-story__eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-story__body {
+    max-width: 78rem;
+    margin-inline: 0;
+    font-size: clamp(1.15rem, 2.1vw, 2rem);
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .elysian-story__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid currentcolor;
+    font-size: 0.68rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .elysian-story__content { text-align: left; }
+
+  .elysian-story__link svg { width: 1rem; color: var(--color-accent); }
+
+  @media (max-width: 700px) {
+    .elysian-story { display: block; }
+    .elysian-story__body { margin-top: 2rem; font-size: 1.15rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Elysian story",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our story" },
+    { "type": "richtext", "id": "body", "label": "Story", "default": "<p>Elysian Groove started in 2024 with three friends, a beach restaurant and a €3 ticket. What began as a 300-person summer party quickly grew into thousands of people taking over some of Lisbon’s most unexpected and iconic spaces. From beach restaurants to warehouses, LX Factory and MAAT Central, we create electronic music experiences where the location, the people and the story matter just as much as the music. No fixed venue. No fixed formula. Just one question we’ve been asking since the beginning: what if we threw a party here?</p>" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Read our story" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Elysian story" }]
+}
+{% endschema %}

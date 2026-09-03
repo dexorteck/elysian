@@ -1,0 +1,335 @@
+<footer class="elysian-footer full-width">
+  <div class="elysian-footer__directory">
+    <div class="elysian-footer__column elysian-footer__column--shop">
+      <p>{{ section.settings.shop_label }}</p>
+      <a href="{{ routes.all_products_collection_url }}">{{ section.settings.shop_all_label }}</a>
+      <a href="{{ routes.search_url }}">{{ 'search.title' | t }}</a>
+    </div>
+
+    {% if section.settings.menu.links.size > 0 %}
+      <nav class="elysian-footer__column elysian-footer__column--explore" aria-label="{{ 'accessibility.footer_navigation' | t }}">
+        <p>{{ section.settings.explore_label }}</p>
+        {% for link in section.settings.menu.links %}
+          {% assign footer_link_label = link.title %}
+          {% if link.url == routes.root_url %}{% assign footer_link_label = 'Home' %}{% endif %}
+          {% if link.url contains '/pages/contact' %}{% assign footer_link_label = 'Contact' %}{% endif %}
+          {% if link.url contains '/pages/about' %}{% assign footer_link_label = 'About' %}{% endif %}
+          {% if link.url contains '/pages/gallery' %}{% assign footer_link_label = 'Gallery' %}{% endif %}
+          {% if link.url contains '/search' %}{% assign footer_link_label = 'Search' %}{% endif %}
+          {% if link.url contains '/collections' %}{% assign footer_link_label = 'Shop' %}{% endif %}
+          <a href="{{ link.url }}">{{ footer_link_label }}</a>
+        {% endfor %}
+      </nav>
+    {% endif %}
+
+    <div class="elysian-footer__column elysian-footer__column--follow">
+      <p>{{ section.settings.follow_label }}</p>
+      {% if section.settings.instagram_url %}<a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
+      {% if section.settings.spotify_url %}<a href="{{ section.settings.spotify_url }}" target="_blank" rel="noopener">Spotify</a>{% endif %}
+    </div>
+
+    <div class="elysian-footer__column elysian-footer__column--location">
+      <p>{{ section.settings.location_label }}</p>
+      <span>{{ section.settings.tagline | newline_to_br }}</span>
+    </div>
+  </div>
+
+  <div class="elysian-footer__main">
+    <div class="elysian-footer__newsletter">
+      <p>{{ section.settings.newsletter_eyebrow }}</p>
+
+      {% form 'customer', class: 'elysian-footer__form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label for="FooterEmail-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
+        <div class="elysian-footer__field">
+          <input
+            id="FooterEmail-{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            value="{% if customer %}{{ customer.email }}{% endif %}"
+            autocapitalize="off"
+            autocomplete="email"
+            placeholder="{{ 'newsletter.placeholder' | t }}"
+            aria-describedby="FooterMessage-{{ section.id }}"
+            required
+          >
+          <button type="submit" aria-label="{{ 'newsletter.submit' | t }}">
+            <span>{{ 'newsletter.submit' | t }}</span>
+          </button>
+        </div>
+        <div id="FooterMessage-{{ section.id }}" class="elysian-footer__message" role="status">
+          {% if form.posted_successfully? %}
+            {{ 'newsletter.success' | t }}
+          {% elsif form.errors %}
+            {{ form.errors | default_errors }}
+          {% else %}
+            {{ section.settings.newsletter_note }}
+          {% endif %}
+        </div>
+      {% endform %}
+    </div>
+
+    <a class="elysian-footer__wordmark" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      <video autoplay muted loop playsinline preload="metadata" aria-label="{{ shop.name | escape }} logo">
+        <source src="{{ 'video_logo.mov' | asset_url }}" type="video/quicktime">
+        <source src="{{ 'video_logo-web.mp4' | asset_url }}" type="video/mp4">
+      </video>
+    </a>
+  </div>
+
+  <div class="elysian-footer__bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} Elysian</p>
+    <a href="#top">{{ section.settings.back_to_top_label }}</a>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .elysian-footer {
+    display: grid;
+    grid-template-columns: minmax(8rem, 1.45fr) repeat(4, minmax(0, 1fr)) minmax(15rem, 1.45fr);
+    column-gap: clamp(1.5rem, 3vw, 4rem);
+    row-gap: 4rem;
+    min-height: auto;
+    padding: clamp(3.5rem, 6vw, 6rem) var(--site-edge) 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 16%, transparent);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .elysian-footer__directory {
+    display: contents;
+  }
+
+  .elysian-footer__column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .elysian-footer__column--shop { grid-column: 2; }
+  .elysian-footer__column--explore { grid-column: 3; }
+  .elysian-footer__column--follow { grid-column: 4; }
+  .elysian-footer__column--location { grid-column: 5; }
+
+  .elysian-footer__column p,
+  .elysian-footer__newsletter > p {
+    margin-bottom: 0.3rem;
+    color: color-mix(in srgb, var(--color-foreground) 46%, transparent);
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+  }
+
+  .elysian-footer__column a,
+  .elysian-footer__column span {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.035em;
+    line-height: 1.35;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .elysian-footer__column a {
+    transition: color 220ms ease;
+  }
+
+  .elysian-footer__column a:hover {
+    color: var(--color-accent);
+  }
+
+  .elysian-footer__main {
+    display: contents;
+  }
+
+  .elysian-footer__newsletter {
+    grid-column: 6;
+    padding-bottom: 0;
+  }
+
+  .elysian-footer__form > label {
+    display: block;
+    margin-bottom: 0.65rem;
+    font-size: 0.62rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-footer__field {
+    display: flex;
+    align-items: stretch;
+    min-height: 3.2rem;
+    background: color-mix(in srgb, var(--color-foreground) 13%, transparent);
+  }
+
+  .elysian-footer__field input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.9rem 1rem;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 0.72rem;
+  }
+
+  .elysian-footer__field input::placeholder {
+    color: color-mix(in srgb, var(--color-foreground) 48%, transparent);
+  }
+
+  .elysian-footer__field button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .elysian-footer__field button:active {
+    transform: translateY(1px);
+  }
+
+  .elysian-footer__field svg {
+    width: 1rem;
+    color: var(--color-accent);
+  }
+
+  .elysian-footer__message {
+    min-height: 1.2rem;
+    margin-top: 0.65rem;
+    color: color-mix(in srgb, var(--color-foreground) 48%, transparent);
+    font-size: 0.62rem;
+  }
+
+  .elysian-footer__wordmark {
+    grid-column: 1;
+    grid-row: 1;
+    display: block;
+    text-decoration: none;
+  }
+
+  .elysian-footer__wordmark video {
+    width: 100%;
+    max-height: 10rem;
+    margin: 0;
+    display: block;
+    object-fit: contain;
+    object-position: right bottom;
+  }
+
+  .elysian-footer__bottom {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-foreground) 14%, transparent);
+    color: color-mix(in srgb, var(--color-foreground) 48%, transparent);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .elysian-footer__bottom a {
+    text-decoration: none;
+  }
+
+  @media (max-width: 900px) {
+    .elysian-footer {
+      display: flex;
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .elysian-footer__directory {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+      column-gap: 1.5rem;
+      row-gap: 2rem;
+    }
+
+    .elysian-footer__column--shop,
+    .elysian-footer__column--explore,
+    .elysian-footer__column--follow,
+    .elysian-footer__column--location {
+      grid-column: auto;
+    }
+
+    .elysian-footer__main {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding-top: 5rem;
+    }
+
+    .elysian-footer__newsletter {
+      width: min(100%, 36rem);
+    }
+
+    .elysian-footer__wordmark {
+      width: 100%;
+      margin-top: 4rem;
+    }
+
+    .elysian-footer__wordmark video {
+      width: min(100%, 34rem);
+      margin-left: 0;
+      object-position: left bottom;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .elysian-footer__directory {
+      gap: 1.75rem 1rem;
+    }
+
+    .elysian-footer__column {
+      gap: 0.28rem;
+    }
+
+    .elysian-footer__column p,
+    .elysian-footer__newsletter > p {
+      margin-bottom: 0.45rem;
+      font-size: 0.7rem;
+    }
+
+    .elysian-footer__column a,
+    .elysian-footer__column span {
+      font-size: 0.7rem;
+      line-height: 1.4;
+    }
+
+    .elysian-footer__field button span {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.footer",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "t:labels.menu", "default": "footer" },
+    { "type": "text", "id": "shop_label", "label": "Shop column label", "default": "Shop" },
+    { "type": "text", "id": "shop_all_label", "label": "Shop all label", "default": "Shop all" },
+    { "type": "text", "id": "explore_label", "label": "Menu column label", "default": "Explore" },
+    { "type": "text", "id": "follow_label", "label": "Social column label", "default": "Follow us" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram" },
+    { "type": "url", "id": "spotify_url", "label": "Spotify" },
+    { "type": "text", "id": "location_label", "label": "Location column label", "default": "Where we are" },
+    { "type": "textarea", "id": "tagline", "label": "t:labels.tagline", "default": "Sunset to sunrise.\nLisbon, PT" },
+    { "type": "text", "id": "newsletter_eyebrow", "label": "Newsletter eyebrow", "default": "Join the club" },
+    { "type": "text", "id": "newsletter_note", "label": "Newsletter note", "default": "No spam. Just parties." },
+    { "type": "text", "id": "back_to_top_label", "label": "Back to top label", "default": "Back to top" }
+  ]
+}
+{% endschema %}

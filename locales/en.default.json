@@ -1,0 +1,103 @@
+{
+  "404": {
+    "title": "404",
+    "not_found": "Page not found.",
+    "back_to_shopping": "Back to shopping"
+  },
+  "accessibility": {
+    "main_navigation": "Main navigation",
+    "footer_navigation": "Footer navigation",
+    "open_menu": "Open menu"
+  },
+  "blog": {
+    "article_comments": "Comments",
+    "article_metadata_html": "{{ date }} by {{ author }}",
+    "comment_form_body": "Comment",
+    "comment_form_email": "Email",
+    "comment_form_name": "Name",
+    "comment_form_submit": "Post",
+    "comment_form_title": "Add a comment"
+  },
+  "cart": {
+    "checkout": "Checkout",
+    "empty": "Your cart is waiting for a good night out.",
+    "eyebrow": "Your selection",
+    "note": "Order note",
+    "title": "Cart",
+    "total": "Total",
+    "update": "Update",
+    "remove": "Remove"
+  },
+  "customers": {
+    "account": {
+      "title": "Account"
+    },
+    "login": {
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "title": "Login"
+    }
+  },
+  "collections": {
+    "title": "Collections",
+    "collection": {
+      "empty": "No products found in this collection.",
+      "eyebrow": "The collection"
+    },
+    "sorting": {
+      "label": "Sort by"
+    }
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Add to Apple Wallet",
+    "card": "Gift card",
+    "expired": "This gift card has expired",
+    "expires_on": "Expires on {{ expires_on }}",
+    "use_at_checkout": "Use this gift card at checkout"
+  },
+  "newsletter": {
+    "label": "Email address",
+    "placeholder": "you@email.com",
+    "submit": "Subscribe",
+    "success": "You're on the list. See you outside."
+  },
+  "navigation": {
+    "events": "Events",
+    "shop": "Shop",
+    "about": "About",
+    "gallery": "Gallery",
+    "merch": "Merch"
+  },
+  "password": {
+    "title": "This shop is private",
+    "password": "Password",
+    "enter": "Enter"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "options": "Options",
+      "quantity": "Quantity",
+      "sale": "Sale",
+      "sold_out": "Sold out",
+      "from_price_html": "From {{ price }}",
+      "taxes_included": "Taxes included."
+    }
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search articles, pages, or products",
+    "submit": "Search",
+    "no_results_html": "No results found for {{ terms }}",
+    "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "sections": {
+    "events": {
+      "empty": "Add event blocks in the theme editor."
+    },
+    "merch": {
+      "empty": "Select a collection or add products to your store."
+    }
+  }
+}

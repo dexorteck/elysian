@@ -1,0 +1,157 @@
+<section class="elysian-about full-width" id="about">
+  <div class="elysian-about__media elysian-reveal">
+    {% if section.settings.image %}
+      {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '480, 760, 1100, 1400', alt: section.settings.image_alt }}
+    {% else %}
+      <img src="{{ 'gallery-1year-1.jpg' | asset_url }}" width="1200" height="1800" loading="lazy" alt="{{ section.settings.image_alt | escape }}">
+    {% endif %}
+    <span class="elysian-about__stamp">{{ section.settings.stamp | newline_to_br }}</span>
+  </div>
+
+  <div class="elysian-about__copy elysian-reveal">
+    <p class="elysian-about__eyebrow"><span>{{ section.settings.number }}</span>{{ section.settings.eyebrow }}</p>
+    <h2 class="elysian-display">{{ section.settings.heading | newline_to_br }}</h2>
+    <div class="elysian-about__body">{{ section.settings.body }}</div>
+    {% if section.settings.link_label != blank %}
+      <a class="elysian-about__link" href="{{ section.settings.link }}">
+        {{ section.settings.link_label }}
+        <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .elysian-about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 60rem;
+    background: var(--color-foreground);
+    color: var(--color-background);
+  }
+
+  .elysian-about__media {
+    position: relative;
+    min-height: 54rem;
+    overflow: hidden;
+  }
+
+  .elysian-about__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .elysian-about__stamp {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    display: grid;
+    width: 7rem;
+    height: 7rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-background);
+    font-family: var(--font-display-family);
+    font-style: var(--font-display-style);
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    transform: rotate(9deg);
+  }
+
+  .elysian-about__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(5rem, 9vw, 9rem) var(--site-edge);
+  }
+
+  .elysian-about__eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .elysian-about__eyebrow span {
+    margin-right: 2rem;
+    color: var(--color-accent);
+  }
+
+  .elysian-about h2 {
+    margin: clamp(3rem, 6vw, 5rem) 0;
+    font-size: clamp(3.5rem, 6.4vw, 7rem);
+  }
+
+  .elysian-about h2 em {
+    color: var(--color-accent);
+  }
+
+  .elysian-about__body {
+    max-width: 35rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    line-height: 1.55;
+  }
+
+  .elysian-about__body > * + * {
+    margin-top: 1rem;
+  }
+
+  .elysian-about__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    width: fit-content;
+    margin-top: 3rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid currentcolor;
+    font-size: 0.7rem;
+    letter-spacing: var(--letter-spacing-label);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .elysian-about__link svg {
+    width: 1rem;
+    color: var(--color-accent);
+    transition: transform 220ms ease;
+  }
+
+  .elysian-about__link:hover svg {
+    transform: translate3d(0.2rem, -0.2rem, 0);
+  }
+
+  @media (max-width: 800px) {
+    .elysian-about {
+      grid-template-columns: 1fr;
+    }
+
+    .elysian-about__media {
+      min-height: 38rem;
+    }
+
+    .elysian-about h2 {
+      font-size: 14vw;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.elysian_about.name",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "t:labels.image" },
+    { "type": "text", "id": "image_alt", "label": "t:labels.image_alt", "default": "Friends dancing at an Elysian party" },
+    { "type": "text", "id": "stamp", "label": "t:labels.stamp", "default": "EST. 2023\nLISBON" },
+    { "type": "text", "id": "number", "label": "t:labels.section_number", "default": "02" },
+    { "type": "text", "id": "eyebrow", "label": "t:labels.eyebrow", "default": "About us" },
+    { "type": "textarea", "id": "heading", "label": "t:labels.heading", "default": "We don't\nthrow parties.\nWe create\nmemories." },
+    { "type": "richtext", "id": "body", "label": "t:labels.body", "default": "<p>Born under Lisbon's golden skies, Elysian is a community built around music, movement and the moments you wish would never end.</p><p>From first light to last track — come as you are, leave as part of something.</p>" },
+    { "type": "text", "id": "link_label", "label": "t:labels.link_label", "default": "Follow the journey" },
+    { "type": "url", "id": "link", "label": "t:labels.link" }
+  ],
+  "presets": [{ "name": "t:sections.elysian_about.name" }]
+}
+{% endschema %}
