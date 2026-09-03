@@ -8,7 +8,7 @@
 <section class="elysian-about-page full-width">
   <div class="elysian-about-page__story">
     <div class="elysian-about-page__copy elysian-reveal">
-      <div class="elysian-about-page__body" data-about-story data-about-images="{{ 'gallery-1year-8.jpg' | asset_url }},{{ 'gallery-faq-loft.jpg' | asset_url }},{{ 'gallery-1year-21.jpg' | asset_url }},{{ 'gallery-loft-2.jpg' | asset_url }},{{ 'gallery-1year-27.jpg' | asset_url }},{{ 'gallery-1year-12.jpg' | asset_url }},{{ 'gallery-loft-4.jpg' | asset_url }},{{ 'gallery-1year-23.jpg' | asset_url }},{{ 'gallery-loft-7.jpg' | asset_url }},{{ 'gallery-1year-29.jpg' | asset_url }}">
+      <div class="elysian-about-page__body" data-about-story data-about-images="{{ 'ostres.jpeg' | asset_url }},{{ 'gallery-2year-2.jpg' | asset_url }},{{ 'gallery-2year-4.jpg' | asset_url }},{{ 'gallery-2year-5.jpg' | asset_url }},{{ 'gallery-maat-1.jpg' | asset_url }}">
         {% if page.content != blank %}
           {{ page.content }}
         {% else %}
@@ -29,7 +29,7 @@
 
 {% stylesheet %}
   .elysian-about-page {
-    padding: clamp(1.75rem, 3.5vw, 3.5rem) var(--site-edge);
+    padding: 0 var(--site-edge) clamp(1.75rem, 3.5vw, 3.5rem);
     background: #090909;
     color: #f0eadf;
   }
@@ -155,36 +155,90 @@
   }
 
   .elysian-about-page__chapter {
+    position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.72fr);
-    gap: clamp(2rem, 6vw, 7rem);
-    align-items: start;
-    margin-top: 5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    width: calc(100% + (var(--site-edge) * 2));
+    min-height: 26rem;
+    overflow: hidden;
+    margin-top: 0;
+    margin-left: calc(var(--site-edge) * -1);
+    margin-right: calc(var(--site-edge) * -1);
   }
 
   .elysian-about-page__chapter:first-child { margin-top: 0; }
 
-  .elysian-about-page__chapter > h3 {
-    grid-column: 1 / -1;
-    margin: 0;
+  .elysian-about-page__chapter-copy {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(1.5rem, 3vw, 3rem);
+    color: #f0eadf;
+    background: #090909;
   }
 
-  .elysian-about-page__chapter-copy { grid-column: 1; }
-
   .elysian-about-page__chapter-image {
-    grid-column: 2;
-    grid-row: 2;
+    grid-column: 1;
+    grid-row: 1;
     width: 100%;
-    height: clamp(16rem, 28vw, 28rem);
+    height: auto;
+    aspect-ratio: 4 / 3;
+    align-self: center;
     object-fit: cover;
   }
 
   .elysian-about-page__chapter:nth-child(even) {
-    grid-template-columns: minmax(12rem, 0.72fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
-  .elysian-about-page__chapter:nth-child(even) .elysian-about-page__chapter-copy { grid-column: 2; }
-  .elysian-about-page__chapter:nth-child(even) .elysian-about-page__chapter-image { grid-column: 1; }
+  .elysian-about-page__chapter:nth-child(even) .elysian-about-page__chapter-image { grid-column: 2; }
+  .elysian-about-page__chapter:nth-child(even) .elysian-about-page__chapter-copy { grid-column: 1; grid-row: 1; }
+
+  .elysian-about-page__chapter h3 {
+    margin: 0 0 1rem;
+    padding: 0;
+    border: 0;
+    color: #f0eadf;
+    font-size: clamp(1rem, 1.35vw, 1.35rem);
+    line-height: 1.1;
+  }
+
+  .elysian-about-page__chapter-copy p {
+    max-width: 40rem;
+    text-align: justify !important;
+    text-justify: inter-word;
+  }
+
+  .elysian-about-page__chapter-copy > * + * {
+    margin-top: 1.35rem;
+  }
+
+  .elysian-about-page__chapter-copy h3 + p {
+    margin-top: 1.75rem;
+  }
+
+  @media (min-width: 801px) {
+    .elysian-about-page__chapter-copy {
+      padding-left: clamp(3rem, 8vw, 8rem);
+      padding-right: clamp(1rem, 2vw, 2rem);
+    }
+  }
+
+  .elysian-about-page__chapter--text-only {
+    min-height: 0;
+    margin-top: clamp(3rem, 6vw, 6rem);
+    margin-left: 0;
+    margin-right: 0;
+    align-items: flex-start;
+  }
+
+  .elysian-about-page__chapter--text-only .elysian-about-page__chapter-copy {
+    width: 100%;
+    padding: 0;
+    background: transparent;
+  }
 
   .elysian-about-page__copy > a {
     display: inline-flex;
@@ -193,6 +247,21 @@
     margin-top: 3rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid currentcolor;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-label);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .elysian-about-page__chapter-copy > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid currentcolor;
+    color: inherit;
     font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: var(--letter-spacing-label);
@@ -251,7 +320,7 @@
 
   @media (max-width: 800px) {
     .elysian-about-page {
-      padding-top: 6rem;
+      padding-top: 0;
     }
 
     .elysian-about-page__header,
@@ -272,7 +341,7 @@
     }
 
     .elysian-about-page__copy {
-      padding-top: 3.5rem;
+      padding-top: 0;
     }
 
     .elysian-about-page__gallery {
@@ -289,19 +358,36 @@
 
     .elysian-about-page__chapter,
     .elysian-about-page__chapter:nth-child(even) {
+      min-height: 58svh;
+      margin-top: 0;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
-      margin-top: 4rem;
+    }
+
+    .elysian-about-page__chapter-copy,
+    .elysian-about-page__chapter:nth-child(even) .elysian-about-page__chapter-copy {
+      width: 86%;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      order: 2;
     }
 
     .elysian-about-page__chapter-image,
     .elysian-about-page__chapter:nth-child(even) .elysian-about-page__chapter-image {
-      order: 2;
+      position: static;
+      order: 1;
       width: 100%;
-      height: 22rem;
-      grid-column: auto;
-      grid-row: auto;
+      height: 62svh;
+      min-height: 24rem;
+      object-fit: cover;
+    }
+
+    .elysian-about-page__chapter--text-only,
+    .elysian-about-page__chapter--text-only .elysian-about-page__chapter-copy {
+      min-height: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
     }
 
     .elysian-about-page__closing > p:last-child {
@@ -336,8 +422,16 @@
         image.alt = 'Elysian Groove';
         image.loading = 'lazy';
         chapter.appendChild(image);
+      } else {
+        chapter.classList.add('elysian-about-page__chapter--text-only');
       }
     });
+
+    const journeyLink = body.parentElement.querySelector(':scope > a');
+    const chapters = body.querySelectorAll('.elysian-about-page__chapter');
+    if (journeyLink && chapters.length) {
+      chapters[chapters.length - 1].querySelector('.elysian-about-page__chapter-copy').appendChild(journeyLink);
+    }
   });
 {% endjavascript %}
 

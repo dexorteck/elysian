@@ -1,9 +1,10 @@
 <section class="elysian-faq full-width" id="faqs">
-  <div class="elysian-faq__visual" aria-hidden="true">
-    <img class="elysian-faq__visual-image elysian-faq__visual-image--one" src="{{ 'gallery-1year-3.jpg' | asset_url }}" width="1200" height="1800" loading="lazy" alt="">
-    <img class="elysian-faq__visual-image elysian-faq__visual-image--two" src="{{ 'gallery-faq-loft.jpg' | asset_url }}" width="933" height="1400" loading="lazy" alt="">
-  </div>
-
+  {% if template.name == 'index' %}
+    <div class="elysian-faq__banner">
+      <img src="{{ 'gallery-2year-41.jpg' | asset_url }}" width="1600" height="1067" loading="lazy" alt="Elysian Groove at Elysian's second anniversary">
+    </div>
+  {% endif %}
+  <h2 class="elysian-faq__title">FAQ</h2>
   <div class="elysian-faq__list">
     {% for block in section.blocks %}
       <details class="elysian-faq__item" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
@@ -20,12 +21,29 @@
 {% stylesheet %}
   .elysian-faq {
     display: grid;
-    grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
-    gap: clamp(3rem, 8vw, 9rem);
+    grid-template-columns: minmax(7rem, 0.28fr) minmax(0, 1fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    max-width: none;
     padding: clamp(5rem, 9vw, 9rem) var(--site-edge);
     border-top: 1px solid color-mix(in srgb, var(--color-foreground) 14%, transparent);
     background: var(--color-background);
     color: var(--color-foreground);
+  }
+
+  .elysian-faq__banner {
+    grid-column: 1 / -1;
+    width: calc(100% + (var(--site-edge) * 2));
+    margin: calc(clamp(5rem, 9vw, 9rem) * -1) calc(var(--site-edge) * -1) clamp(3rem, 6vw, 6rem);
+    aspect-ratio: 16 / 6.5;
+    overflow: hidden;
+  }
+
+  .elysian-faq__banner img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
   }
 
   .elysian-faq__eyebrow {
@@ -40,13 +58,24 @@
     max-width: 26rem;
     margin-top: 2rem;
     color: color-mix(in srgb, var(--color-foreground) 62%, transparent);
-    font-size: 0.78rem;
+    font-size: clamp(1.15rem, 2.1vw, 2rem);
     line-height: 1.5;
   }
 
   .elysian-faq__list {
     width: 100%;
     align-self: center;
+  }
+
+  .elysian-faq__title {
+    margin: 0;
+    color: var(--color-foreground);
+    font-family: var(--font-primary-family);
+    font-size: clamp(1.15rem, 2.1vw, 2rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
   }
 
   .elysian-faq__visual {
@@ -132,12 +161,12 @@
       padding-bottom: 4.5rem;
     }
 
-    .elysian-faq__visual {
-      min-height: 18rem;
+    .elysian-faq__banner {
       margin-bottom: 3rem;
+      aspect-ratio: 16 / 9;
     }
 
-    .elysian-faq__copy { margin-top: 1.5rem; }
+    .elysian-faq__title { margin-bottom: 2rem; }
     .elysian-faq__list { margin-top: 0; }
   }
 {% endstylesheet %}
