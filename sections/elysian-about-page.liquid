@@ -8,7 +8,7 @@
 <section class="elysian-about-page full-width">
   <div class="elysian-about-page__story">
     <div class="elysian-about-page__copy elysian-reveal">
-      <div class="elysian-about-page__body" data-about-story data-about-images="{{ 'ostres.jpeg' | asset_url }},{{ 'gallery-2year-2.jpg' | asset_url }},{{ 'gallery-2year-4.jpg' | asset_url }},{{ 'gallery-2year-5.jpg' | asset_url }},{{ 'gallery-maat-1.jpg' | asset_url }}">
+      <div class="elysian-about-page__body" data-about-story data-about-images="{{ 'ostres.jpeg' | asset_url }},{{ 'gallery-2year-2.jpg' | asset_url }},{{ 'gallery-1year-14.jpg' | asset_url }},{{ 'gallery-1year-15.jpg' | asset_url }},{{ 'gallery-maat-1.jpg' | asset_url }}">
         {% if page.content != blank %}
           {{ page.content }}
         {% else %}
@@ -30,6 +30,7 @@
 {% stylesheet %}
   .elysian-about-page {
     padding: 0 var(--site-edge) clamp(1.75rem, 3.5vw, 3.5rem);
+    margin-top: 0;
     background: #090909;
     color: #f0eadf;
   }
@@ -167,6 +168,10 @@
   }
 
   .elysian-about-page__chapter:first-child { margin-top: 0; }
+
+  .elysian-about-page__chapter:first-child {
+    margin-top: -1px;
+  }
 
   .elysian-about-page__chapter-copy {
     display: flex;
