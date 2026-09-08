@@ -40,6 +40,7 @@
     }
   },
   "collections": {
+    "view_all": "View all",
     "title": "Collections",
     "collection": {
       "empty": "No products found in this collection.",
@@ -77,6 +78,16 @@
   "products": {
     "product": {
       "add_to_cart": "Add to cart",
+      "view_media": "View media {{ number }}",
+      "zoom_in": "Zoom in",
+      "color": "Color",
+      "size": "Size",
+      "zoom_out": "Zoom out",
+      "close": "Close",
+      "details": "Details",
+      "size_guide": "Size & fit guide",
+      "shipping": "Shipping",
+      "returns": "Returns",
       "options": "Options",
       "quantity": "Quantity",
       "sale": "Sale",

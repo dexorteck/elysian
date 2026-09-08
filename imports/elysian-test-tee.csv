@@ -1,0 +1,4 @@
+Title,URL handle,Description,Vendor,Type,Tags,Published on online store,Status,Option1 name,Option1 value,SKU,Price,Inventory tracker,Continue selling when out of stock,Fulfillment service,Requires shipping,Weight value (grams),Product image URL
+Elysian Test Tee,elysian-test-tee,<p>Demo product for testing the Shopify shopping experience. Not a real merchandise release. Please stop at checkout and do not complete payment.</p>,Elysian,T-Shirt,test-product,true,active,Size,S,ELYSIAN-TEST-S,50.00,,deny,manual,true,200,https://ti1znq-gp.myshopify.com/cdn/shop/t/4/assets/tee-1-shop.jpg
+,elysian-test-tee,,,,,,,Size,M,ELYSIAN-TEST-M,50.00,,deny,manual,true,200,
+,elysian-test-tee,,,,,,,Size,L,ELYSIAN-TEST-L,50.00,,deny,manual,true,200,

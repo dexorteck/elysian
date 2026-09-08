@@ -12,11 +12,11 @@
 {% endif %}
 
 <header class="elysian-header full-width{% if request.page_type == 'index' %} elysian-header--overlay{% endif %}{% if section.settings.show_announcement %} elysian-header--with-announcement{% endif %}" style="--logo-width: {{ settings.logo_width }}px" data-elysian-header>
-  <a class="elysian-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+  <a class="elysian-header__logo" href="{{ routes.root_url }}" aria-label="{{ 'Elysian Groove' | escape }}">
     {% if settings.logo %}
-      {{ settings.logo | image_url: width: 440 | image_tag: widths: '144, 224, 320, 440', width: settings.logo_width, alt: shop.name }}
+      {{ settings.logo | image_url: width: 440 | image_tag: widths: '144, 224, 320, 440', width: settings.logo_width, alt: 'Elysian Groove' }}
     {% else %}
-      <img src="{{ 'logo.png' | asset_url }}" width="2105" height="812" alt="{{ shop.name | escape }}">
+      <img src="{{ 'logo.png' | asset_url }}" width="2105" height="812" alt="{{ 'Elysian Groove' | escape }}">
     {% endif %}
   </a>
 
@@ -27,7 +27,7 @@
       {% for link in section.settings.menu.links %}
         {% if link.url contains '/pages/about' %}{% assign has_about_link = true %}{% endif %}
         {% if link.url contains '/pages/gallery' %}{% assign has_gallery_link = true %}{% endif %}
-        {% assign link_label = link.title %}
+        {% assign link_label = link.title | replace: 'A minha loja', 'Elysian Groove' %}
         {% assign link_class = '' %}
         {% if link.url == routes.root_url %}{% assign link_label = 'Home' %}{% endif %}
         {% if link.url contains '/pages/contact' %}{% assign link_label = 'Contact' %}{% assign link_class = ' elysian-header__nav-link--contact' %}{% endif %}

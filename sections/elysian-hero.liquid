@@ -1,6 +1,8 @@
 <section class="elysian-hero full-width" aria-labelledby="ElysianHeroTitle-{{ section.id }}">
   <div class="elysian-hero__media" aria-hidden="true">
-    <img src="{{ 'hero-2year.jpg' | asset_url }}" width="2400" height="1600" loading="eager" fetchpriority="high" alt="Elysian Groove at 2 Year">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="{{ 'thank-you-lisboa.mp4' | asset_url }}" type="video/mp4">
+    </video>
   </div>
   <div class="elysian-hero__shade" aria-hidden="true"></div>
 
@@ -18,7 +20,7 @@
       <b>{{ section.settings.event_date }}</b>
       <span>{{ section.settings.event_location | newline_to_br }}</span>
     </div>
-    {% if section.settings.event_link %}
+    {% if section.settings.event_link != blank %}
       <a href="{{ section.settings.event_link }}" aria-label="{{ section.settings.event_name | escape }}">
         <svg aria-hidden="true" viewBox="0 0 28 28"><path d="M6 6h16v16M22 6 6 22" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
       </a>
@@ -29,7 +31,12 @@
 {% stylesheet %}
   .elysian-hero {
     position: relative;
-    min-height: max(46rem, 100svh);
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    align-items: end;
+    gap: clamp(2rem, 5vw, 6rem);
+    min-height: clamp(34rem, 82svh, 56rem);
+    padding: 8rem var(--site-edge) clamp(3rem, 6vw, 6rem);
     overflow: hidden;
     background: var(--color-surface);
   }
@@ -40,7 +47,7 @@
     inset: 0;
   }
 
-  .elysian-hero__media img {
+  .elysian-hero__media video {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -54,31 +61,28 @@
   }
 
   .elysian-hero__tag {
-    position: absolute;
-    bottom: 20%;
-    left: var(--site-edge);
+    position: relative;
+    min-width: 0;
     max-width: none;
     font-family: var(--font-display-family);
     font-style: normal;
-    font-size: clamp(1.5rem, 3.2vw, 3.25rem);
+    font-size: clamp(1.5rem, 3.7vw, 3.75rem);
     font-weight: var(--font-display-weight);
     letter-spacing: var(--letter-spacing-display);
-    line-height: 0.95;
+    line-height: 1.08;
     text-transform: uppercase;
     white-space: nowrap;
   }
 
   .elysian-hero__event {
-    position: absolute;
-    right: var(--site-edge);
-    bottom: 13%;
+    position: relative;
     display: grid;
-    grid-template-columns: 1.3fr 1fr 3rem;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto;
+    gap: 1rem;
     align-items: end;
-    width: min(32rem, 44vw);
+    width: 100%;
     padding: 1.25rem 0;
     border-top: 1px solid currentcolor;
-    border-bottom: 1px solid currentcolor;
   }
 
   .elysian-hero__event small {
@@ -92,6 +96,8 @@
 
   .elysian-hero__event strong {
     display: block;
+    font-style: normal;
+    line-height: 1.08;
     font-size: clamp(1.2rem, 2vw, 1.7rem);
   }
 
@@ -109,6 +115,10 @@
 
   .elysian-hero__event a {
     align-self: end;
+    display: grid;
+    place-items: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
     color: var(--color-accent);
     transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -121,22 +131,21 @@
     width: 2rem;
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 1000px) {
     .elysian-hero {
-      min-height: 50rem;
+      grid-template-columns: minmax(0, 1fr);
+      align-content: end;
+      gap: 2.5rem;
+      min-height: clamp(34rem, 82svh, 48rem);
     }
 
     .elysian-hero__tag {
-      top: 42%;
-      bottom: auto;
+      font-size: clamp(1.5rem, 5.8vw, 3.5rem);
     }
 
     .elysian-hero__event {
-      right: var(--site-edge);
-      bottom: 4.5rem;
-      left: var(--site-edge);
-      grid-template-columns: 1.2fr 1fr 2rem;
-      width: auto;
+      max-width: 32rem;
+      padding-bottom: 0;
     }
   }
 

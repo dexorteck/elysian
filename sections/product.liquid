@@ -1,12 +1,26 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
 
-<section class="elysian-product">
+<section class="elysian-product" data-product-page style="--product-image-ratio: {{ product.featured_media.preview_image.aspect_ratio | default: 1 }}">
   <div class="elysian-product__gallery">
+    {% if product.media.size > 1 %}
+      <div class="elysian-product__thumbnails">
+        {% for media in product.media %}
+          <button type="button" data-product-thumbnail="{{ media.id }}" aria-controls="ProductMedia-{{ section.id }}-{{ media.id }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="{{ 'products.product.view_media' | t: number: forloop.index }}">
+            {{ media.preview_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="elysian-product__stage">
     {% for media in product.media %}
-      <div class="elysian-product__media">
+      {% assign media_loading = 'lazy' %}
+      {% if forloop.first %}{% assign media_loading = 'eager' %}{% endif %}
+      <div class="elysian-product__media" id="ProductMedia-{{ section.id }}-{{ media.id }}" data-product-media="{{ media.id }}" data-aspect-ratio="{{ media.preview_image.aspect_ratio | default: 1 }}"{% unless forloop.first %} hidden{% endunless %}>
         {% case media.media_type %}
           {% when 'image' %}
-            {{ media | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '480, 760, 1100, 1600', alt: media.alt | default: product.title }}
+            <button class="elysian-product__image-button" type="button" data-zoom-image="{{ media | image_url: width: 2400 }}" aria-label="{{ 'products.product.zoom_in' | t }}">
+            {{ media | image_url: width: 1600 | image_tag: loading: media_loading, widths: '480, 760, 1100, 1600', sizes: '(max-width: 800px) 90vw, 42vw', alt: media.alt }}
+            </button>
           {% when 'video' %}
             {{ media | video_tag: controls: true, image_size: '1200x' }}
           {% when 'external_video' %}
@@ -16,30 +30,33 @@
         {% endcase %}
       </div>
     {% endfor %}
+    {% if product.media.size == 0 %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}
+    </div>
   </div>
 
   <div class="elysian-product__details">
-    <p class="elysian-product__eyebrow">{{ product.vendor | default: product.type }}</p>
+    <p class="elysian-product__eyebrow">{{ product.vendor | default: 'Elysian Groove' | replace: 'A minha loja', 'Elysian Groove' }}</p>
     <h1 class="elysian-display">{{ product.title }}</h1>
     <div class="elysian-product__price">
-      <span>{{ current_variant.price | money }}</span>
-      {% if current_variant.compare_at_price > current_variant.price %}
-        <s>{{ current_variant.compare_at_price | money }}</s>
-      {% endif %}
+      <span data-product-price>{{ current_variant.price | money }}</span>
+      <s data-product-compare{% unless current_variant.compare_at_price > current_variant.price %} hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s>
     </div>
 
     {% form 'product', product, class: 'elysian-product__form' %}
       {{ form.errors | default_errors }}
 
       {% unless product.has_only_default_variant %}
-        <label for="ProductVariant-{{ section.id }}">{{ 'products.product.options' | t }}</label>
-        <select id="ProductVariant-{{ section.id }}" name="id">
+        <fieldset class="elysian-product__variants">
+          <legend>{{ product.options | join: ' / ' }}</legend>
+          <div>
           {% for variant in product.variants %}
-            <option value="{{ variant.id }}"{% if variant == current_variant %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>
-              {{ variant.title }} — {{ variant.price | money }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}
-            </option>
+            <label class="elysian-product__variant">
+              <input type="radio" name="id" value="{{ variant.id }}" data-price="{{ variant.price | money | escape }}" data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}" data-media="{{ variant.featured_media.id }}"{% if variant == current_variant %} checked{% endif %}{% unless variant.available %} disabled{% endunless %}>
+              <span>{{ variant.title }}{% unless variant.available %}<span class="visually-hidden"> — {{ 'products.product.sold_out' | t }}</span>{% endunless %}</span>
+            </label>
           {% endfor %}
-        </select>
+          </div>
+        </fieldset>
       {% else %}
         <input type="hidden" name="id" value="{{ current_variant.id }}">
       {% endunless %}
@@ -51,32 +68,71 @@
         {% if current_variant.available %}{{ 'products.product.add_to_cart' | t }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}
       </button>
 
-      {% if current_variant.available %}{{ form | payment_button }}{% endif %}
+      {% if section.settings.show_express_checkout %}
+        {% if current_variant.available %}{{ form | payment_button }}{% endif %}
+      {% endif %}
     {% endform %}
 
     {% if cart.taxes_included %}<p class="elysian-product__tax">{{ 'products.product.taxes_included' | t }}</p>{% endif %}
-    <div class="elysian-product__description">{{ product.description }}</div>
+    <div class="elysian-product__accordions">
+      {% if product.description != blank %}
+        <details><summary>{{ 'products.product.details' | t }}</summary><div>{{ product.description }}</div></details>
+      {% endif %}
+      {% if section.settings.size_guide != blank %}
+        <details><summary>{{ 'products.product.size_guide' | t }}</summary><div>{{ section.settings.size_guide }}</div></details>
+      {% endif %}
+      {% if shop.shipping_policy.body != blank %}
+        <details><summary>{{ 'products.product.shipping' | t }}</summary><div>{{ shop.shipping_policy.body }}</div></details>
+      {% endif %}
+      {% if shop.refund_policy.body != blank %}
+        <details><summary>{{ 'products.product.returns' | t }}</summary><div>{{ shop.refund_policy.body }}</div></details>
+      {% endif %}
+    </div>
   </div>
+  <dialog class="elysian-product__zoom" aria-label="{{ 'products.product.zoom_in' | t }}">
+    <div class="elysian-product__zoom-controls">
+      <button type="button" data-zoom-out aria-label="{{ 'products.product.zoom_out' | t }}">−</button>
+      <button type="button" data-zoom-in aria-label="{{ 'products.product.zoom_in' | t }}">+</button>
+      <button type="button" data-zoom-close aria-label="{{ 'products.product.close' | t }}">×</button>
+    </div>
+    <div class="elysian-product__zoom-viewport"><img width="2400" height="2400" alt=""></div>
+  </dialog>
 </section>
 
 {% stylesheet %}
   .elysian-product {
     display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(20rem, 0.75fr);
-    gap: clamp(3rem, 7vw, 8rem);
-    padding: clamp(4rem, 8vw, 8rem) 0;
+    grid-template-columns: minmax(0, max-content) minmax(0, 30rem);
+    justify-content: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+    padding: 1.5rem 0 4rem;
   }
 
   .elysian-product__gallery {
+    width: min(46vw, calc(min(72svh, 46rem) * var(--product-image-ratio) + 3.65rem));
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    align-content: start;
+    gap: 0.4rem;
+    position: sticky;
+    top: 2rem;
   }
+
+  .elysian-product__stage { grid-column: 2; min-width: 0; }
+  .elysian-product__thumbnails { display: flex; flex-direction: column; gap: 0.5rem; align-self: end; max-height: 70svh; overflow-y: auto; }
+  .elysian-product__thumbnails button { padding: 0; border: 1px solid transparent; background: transparent; opacity: 0.5; cursor: pointer; flex-shrink: 0; }
+  .elysian-product__thumbnails button[aria-pressed='true'] { border-color: currentColor; opacity: 1; }
+  .elysian-product__thumbnails img { display: block; width: 100%; height: 4rem; object-fit: cover; }
+  .elysian-product button:focus-visible, .elysian-product summary:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 
   .elysian-product__media {
     overflow: hidden;
-    background: var(--color-surface);
+    background: transparent;
+    contain: paint;
   }
+
+  .elysian-product [hidden] { display: none; }
 
   .elysian-product__media:first-child {
     grid-column: 1 / -1;
@@ -86,16 +142,36 @@
   .elysian-product__media video,
   .elysian-product__media iframe {
     width: 100%;
-    height: 100%;
-    min-height: 22rem;
-    object-fit: cover;
+    height: auto;
+    min-height: 0;
+    object-fit: contain;
+    display: block;
   }
 
   .elysian-product__details {
-    position: sticky;
-    top: 2rem;
+    position: static;
     align-self: start;
+    width: 100%;
+    max-width: 30rem;
+    padding-top: clamp(1.5rem, 5vw, 5rem);
   }
+
+  .elysian-product__attribute { margin-bottom: 1.5rem; font-size: 0.75rem; }
+  .elysian-product__attribute p { margin-bottom: 0.65rem; }
+  .elysian-product__attribute ul { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; list-style: none; padding: 0; margin: 0; }
+  .elysian-product__attribute li { display: flex; align-items: center; gap: 0.5rem; }
+  .elysian-product__swatch { width: 1rem; height: 1rem; background: var(--swatch-color); border: 1px solid color-mix(in srgb, var(--color-foreground) 25%, transparent); }
+
+  .elysian-product__image-button { display: block; width: fit-content; max-width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+  .elysian-product__image-button img { width: auto; max-width: 100%; max-height: min(72svh, 46rem); height: auto; }
+  .elysian-product__zoom { width: 94vw; max-width: 94vw; height: 92svh; max-height: 92svh; margin: auto; padding: 0; border: 0; background: var(--color-background); color: var(--color-foreground); }
+  .elysian-product__zoom::backdrop { background: rgb(0 0 0 / 80%); }
+  .elysian-product__zoom-controls { display: flex; justify-content: flex-end; height: 3.5rem; }
+  .elysian-product__zoom-controls button { width: 3.5rem; border: 0; background: transparent; color: inherit; font-size: 1.5rem; cursor: pointer; }
+  .elysian-product__zoom-controls button:disabled { opacity: 0.3; cursor: default; }
+  .elysian-product__zoom-viewport { height: calc(100% - 3.5rem); overflow: auto; overscroll-behavior: contain; }
+  .elysian-product__zoom-viewport img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .elysian-product__zoom.is-enlarged .elysian-product__zoom-viewport img { width: 200%; max-width: none; height: auto; cursor: zoom-out; }
 
   .elysian-product__eyebrow,
   .elysian-product__form label {
@@ -106,8 +182,15 @@
   }
 
   .elysian-product h1 {
-    margin: 2rem 0;
-    font-size: clamp(3.6rem, 7vw, 7rem);
+    margin: 1rem 0;
+    font-family: var(--font-primary-family);
+    font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
 
   .elysian-product__price {
@@ -142,7 +225,7 @@
   }
 
   .elysian-product__add {
-    min-height: 3.8rem;
+    min-height: 3.25rem;
     padding: 1rem;
     border: 0;
     background: var(--color-accent);
@@ -183,19 +266,47 @@
     margin-top: 1rem;
   }
 
+  .elysian-product__variants { margin: 0 0 1.5rem; padding: 0; border: 0; min-width: 0; }
+  .elysian-product__variants legend { margin-bottom: 0.75rem; font-size: 0.75rem; }
+  .elysian-product__variants > div { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .elysian-product__variant { position: relative; }
+  .elysian-product__variant input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .elysian-product__variant > span { display: grid; place-items: center; min-width: 2.75rem; min-height: 2.75rem; padding: 0.5rem; border-bottom: 1px solid transparent; cursor: pointer; }
+  .elysian-product__variant input:checked + span { border-color: currentColor; }
+  .elysian-product__variant input:focus-visible + span { outline: 2px solid currentColor; }
+  .elysian-product__variant input:disabled + span { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
+  .elysian-product__accordions { margin-top: 2.5rem; font-size: 0.8rem; line-height: 1.6; }
+  .elysian-product__accordions details { border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 15%, transparent); }
+  .elysian-product__accordions summary { display: flex; justify-content: space-between; padding: 1rem 0; cursor: pointer; list-style: none; }
+  .elysian-product__accordions summary::-webkit-details-marker { display: none; }
+  .elysian-product__accordions summary::after { content: '+'; }
+  .elysian-product__accordions details[open] summary::after { content: '−'; }
+  .elysian-product__accordions details > div { padding-bottom: 1.25rem; }
+  .elysian-product__accordions p + p { margin-top: 0.75rem; }
+
   @media (max-width: 800px) {
     .elysian-product {
       grid-template-columns: 1fr;
-      padding: 3rem 0 5rem;
+      padding: 1rem 0 3rem;
+      gap: 1.5rem;
     }
 
     .elysian-product__details {
       position: static;
+      max-width: none;
+      padding-top: 1rem;
     }
 
     .elysian-product__gallery {
+      width: 100%;
       grid-template-columns: 1fr;
+      position: static;
     }
+
+    .elysian-product__stage { grid-column: 1; grid-row: 1; }
+    .elysian-product__image-button img { max-height: min(58svh, 32rem); }
+    .elysian-product__thumbnails { grid-row: 2; flex-direction: row; overflow-x: auto; max-height: none; }
+    .elysian-product__thumbnails button { width: 3rem; }
 
     .elysian-product__media:first-child {
       grid-column: auto;
@@ -203,10 +314,85 @@
   }
 {% endstylesheet %}
 
+{% javascript %}
+  function initializeProductPages() {
+    document.querySelectorAll('[data-product-page]').forEach((page) => {
+      if (page.dataset.initialized) return;
+      page.dataset.initialized = 'true';
+      const dialog = page.querySelector('.elysian-product__zoom');
+      const zoomImage = dialog.querySelector('img');
+      const zoomIn = dialog.querySelector('[data-zoom-in]');
+      const zoomOut = dialog.querySelector('[data-zoom-out]');
+      const setZoom = (enlarged) => {
+        dialog.classList.toggle('is-enlarged', enlarged);
+        zoomIn.disabled = enlarged;
+        zoomOut.disabled = !enlarged;
+      };
+      page.querySelectorAll('[data-zoom-image]').forEach((button) => {
+        button.addEventListener('click', () => {
+          zoomImage.src = button.dataset.zoomImage;
+          zoomImage.alt = button.querySelector('img').alt;
+          setZoom(false);
+          dialog.showModal();
+        });
+      });
+      zoomIn.addEventListener('click', () => setZoom(true));
+      zoomOut.addEventListener('click', () => setZoom(false));
+      zoomImage.addEventListener('click', () => setZoom(!dialog.classList.contains('is-enlarged')));
+      dialog.querySelector('[data-zoom-close]').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+      let mediaRequest = 0;
+      const showMedia = async (id) => {
+        const nextPanel = id && page.querySelector(`[data-product-media="${id}"]`);
+        if (!nextPanel) return;
+        const request = ++mediaRequest;
+        const nextImage = nextPanel.querySelector('img');
+        if (nextImage) {
+          nextImage.loading = 'eager';
+          try { await nextImage.decode(); } catch {}
+        }
+        if (request !== mediaRequest) return;
+        page.querySelectorAll('[data-product-media]').forEach((panel) => {
+          if (!panel.hidden && panel !== nextPanel) {
+            panel.querySelectorAll('video').forEach((video) => video.pause());
+            panel.querySelectorAll('iframe').forEach((frame) => { frame.src = frame.src; });
+          }
+          panel.hidden = true;
+        });
+        page.style.setProperty('--product-image-ratio', nextPanel.dataset.aspectRatio);
+        nextPanel.hidden = false;
+        page.querySelectorAll('[data-product-thumbnail]').forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.productThumbnail === id));
+        });
+      };
+      page.querySelectorAll('[data-product-thumbnail]').forEach((button) => {
+        button.addEventListener('click', () => showMedia(button.dataset.productThumbnail));
+      });
+      page.querySelectorAll('.elysian-product__variant input').forEach((input) => {
+        input.addEventListener('change', () => {
+          page.querySelector('[data-product-price]').textContent = input.dataset.price;
+          const compare = page.querySelector('[data-product-compare]');
+          compare.textContent = input.dataset.compare;
+          compare.hidden = !input.dataset.compare;
+          showMedia(input.dataset.media);
+          const url = new URL(window.location.href);
+          url.searchParams.set('variant', input.value);
+          window.history.replaceState({}, '', url);
+        });
+      });
+    });
+  }
+  initializeProductPages();
+  document.addEventListener('shopify:section:load', initializeProductPages);
+{% endjavascript %}
+
 {% schema %}
 {
   "name": "t:general.product",
-  "settings": [],
+  "settings": [
+    { "type": "checkbox", "id": "show_express_checkout", "label": "Show express checkout", "default": false },
+    { "type": "richtext", "id": "size_guide", "label": "Size guide" }
+  ],
   "disabled_on": { "groups": ["header", "footer"] }
 }
 {% endschema %}

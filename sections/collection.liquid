@@ -1,6 +1,6 @@
 {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
-<section class="elysian-collection">
+<section class="elysian-collection full-width">
   <header class="elysian-collection__header">
     <form class="elysian-collection__sort" action="{{ collection.url }}" method="get">
       <label for="SortBy-{{ section.id }}">{{ 'collections.sorting.label' | t }}</label>
@@ -10,6 +10,13 @@
         {% endfor %}
       </select>
     </form>
+    {% if collection.all_types.size > 0 %}
+      <nav class="elysian-collection__categories" aria-label="{{ 'products.product.options' | t }}">
+        {% for product_type in collection.all_types %}
+          {% if product_type != blank %}{{ product_type | link_to_type }}{% endif %}
+        {% endfor %}
+      </nav>
+    {% endif %}
   </header>
 
   {% paginate collection.products by 20 %}
@@ -41,15 +48,15 @@
 
 {% stylesheet %}
   .elysian-collection {
-    padding: clamp(3rem, 5vw, 5rem) 0 clamp(5rem, 9vw, 9rem);
+    padding: 1rem 0 clamp(3rem, 6vw, 6rem);
   }
 
   .elysian-collection__header {
-    display: flex;
-    align-items: end;
-    justify-content: flex-end;
-    gap: 3rem;
-    margin-bottom: clamp(1.5rem, 3vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    padding: 0 var(--site-edge) 1rem;
   }
 
   .elysian-collection__header > div > p,
@@ -61,9 +68,18 @@
   }
 
   .elysian-collection h1 {
-    margin: 1.25rem 0;
-    font-size: clamp(3rem, 6vw, 6rem);
+    margin: 0;
+    font-family: var(--font-primary-family);
+    font-size: 1.35rem;
+    font-weight: 400;
+    line-height: 1.25;
   }
+
+  .elysian-collection h1 sup { font-size: 0.65rem; vertical-align: super; }
+  .elysian-collection__categories { grid-column: 1 / -1; display: flex; gap: 1.25rem; overflow-x: auto; font-size: 0.75rem; white-space: nowrap; }
+  .elysian-collection__categories a { color: inherit; text-decoration: none; padding: 0.5rem 0; }
+  .elysian-collection__categories a:hover { text-decoration: underline; }
+  .elysian-collection__sort { grid-column: 2; display: flex; align-items: center; gap: 0.6rem; }
 
   .elysian-collection__header .rte {
     max-width: 42rem;
@@ -72,23 +88,28 @@
   }
 
   .elysian-collection__sort select {
-    min-width: 13rem;
-    margin-top: 0.75rem;
-    padding: 0.8rem 2.5rem 0.8rem 0.85rem;
-    border: 1px solid color-mix(in srgb, var(--color-foreground) 28%, transparent);
+    min-width: 0;
+    max-width: 12rem;
+    margin: 0;
+    padding: 0.6rem 0;
+    border: 0;
+    background: var(--color-background);
+    color: inherit;
+    font-size: 0.75rem;
   }
 
   .elysian-collection__grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.25rem, 3vw, 3rem) 1rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem 1px;
   }
 
   .elysian-product-card__image {
     position: relative;
     display: block;
     overflow: hidden;
-    aspect-ratio: 3 / 4;
+    width: 100%;
+    height: clamp(20rem, 58svh, 34rem);
     background: var(--color-surface);
   }
 
@@ -119,17 +140,21 @@
   .elysian-product-card__content {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
-    padding-top: 1rem;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0.65rem 0;
   }
 
   .elysian-product-card__content h2 {
-    font-family: var(--font-display-family);
-    font-style: var(--font-display-style);
-    font-weight: var(--font-display-weight);
-    font-size: 1rem;
-    letter-spacing: var(--letter-spacing-display);
-    text-transform: uppercase;
+    font-family: var(--font-primary-family);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.75rem;
+    letter-spacing: normal;
+    line-height: 1.35;
+    text-transform: none;
   }
 
   .elysian-product-card__content a {
@@ -161,11 +186,11 @@
 
   @media (max-width: 800px) {
     .elysian-collection__header {
-      display: block;
+      grid-template-columns: 1fr auto;
     }
 
     .elysian-collection__sort {
-      margin-top: 2rem;
+      margin-top: 0;
     }
 
     .elysian-collection__grid {
@@ -174,9 +199,8 @@
   }
 
   @media (max-width: 480px) {
-    .elysian-collection__grid {
-      grid-template-columns: 1fr;
-    }
+    .elysian-collection__sort label { display: none; }
+    .elysian-collection__sort select { max-width: 10rem; }
   }
 {% endstylesheet %}
 

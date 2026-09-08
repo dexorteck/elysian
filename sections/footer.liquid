@@ -10,7 +10,7 @@
       <nav class="elysian-footer__column elysian-footer__column--explore" aria-label="{{ 'accessibility.footer_navigation' | t }}">
         <p>{{ section.settings.explore_label }}</p>
         {% for link in section.settings.menu.links %}
-          {% assign footer_link_label = link.title %}
+          {% assign footer_link_label = link.title | replace: 'A minha loja', 'Elysian Groove' %}
           {% if link.url == routes.root_url %}{% assign footer_link_label = 'Home' %}{% endif %}
           {% if link.url contains '/pages/contact' %}{% assign footer_link_label = 'Contact' %}{% endif %}
           {% if link.url contains '/pages/about' %}{% assign footer_link_label = 'About' %}{% endif %}
@@ -69,11 +69,8 @@
       {% endform %}
     </div>
 
-    <a class="elysian-footer__wordmark" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
-      <video autoplay muted loop playsinline preload="metadata" aria-label="{{ shop.name | escape }} logo">
-        <source src="{{ 'video_logo.mov' | asset_url }}" type="video/quicktime">
-        <source src="{{ 'video_logo-web.mp4' | asset_url }}" type="video/mp4">
-      </video>
+    <a class="elysian-footer__wordmark" href="{{ routes.root_url }}" aria-label="{{ 'Elysian Groove' | escape }}">
+      <img src="{{ 'logo.png' | asset_url }}" width="2105" height="812" loading="lazy" alt="{{ 'Elysian Groove' | escape }}">
     </a>
   </div>
 
@@ -215,7 +212,7 @@
     text-decoration: none;
   }
 
-  .elysian-footer__wordmark video {
+  .elysian-footer__wordmark img {
     width: 100%;
     max-height: 10rem;
     margin: 0;
@@ -280,7 +277,7 @@
       margin-top: 4rem;
     }
 
-    .elysian-footer__wordmark video {
+    .elysian-footer__wordmark img {
       width: min(100%, 34rem);
       margin-left: 0;
       object-position: left bottom;
