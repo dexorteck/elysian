@@ -8,7 +8,7 @@
 <section class="elysian-about-page full-width">
   <div class="elysian-about-page__story">
     <div class="elysian-about-page__copy elysian-reveal">
-      <div class="elysian-about-page__body" data-about-story data-about-images="{{ 'ostres.jpeg' | asset_url }},{{ 'gallery-2year-2.jpg' | asset_url }},{{ 'gallery-1year-14.jpg' | asset_url }},{{ 'gallery-1year-15.jpg' | asset_url }},{{ 'gallery-maat-1.jpg' | asset_url }}">
+      <div class="elysian-about-page__body" data-about-story data-about-images="{{ 'ostres-optimized.jpg' | asset_url }},{{ 'gallery-2year-2.jpg' | asset_url }},{{ 'gallery-1year-14.jpg' | asset_url }},{{ 'gallery-1year-15.jpg' | asset_url }},{{ 'gallery-maat-1.jpg' | asset_url }}">
         {% if page.content != blank %}
           {{ page.content }}
         {% else %}
@@ -231,6 +231,29 @@
     }
   }
 
+  @media (min-width: 801px) and (max-width: 1100px) {
+    .elysian-about-page {
+      padding-inline: clamp(1rem, 3vw, 2rem);
+    }
+
+    .elysian-about-page__chapter {
+      min-height: 22rem;
+    }
+
+    .elysian-about-page__chapter-copy,
+    .elysian-about-page__chapter:nth-child(even) .elysian-about-page__chapter-copy {
+      padding: 2rem clamp(1.25rem, 4vw, 3rem);
+    }
+
+    .elysian-about-page__chapter-copy p {
+      font-size: 0.9rem;
+    }
+
+    .elysian-about-page__chapter-image {
+      aspect-ratio: 3 / 4;
+    }
+  }
+
   .elysian-about-page__chapter--text-only {
     min-height: 0;
     margin-top: clamp(3rem, 6vw, 6rem);
@@ -425,7 +448,10 @@
         image.className = 'elysian-about-page__chapter-image';
         image.src = source;
         image.alt = 'Elysian Groove';
-        image.loading = 'lazy';
+        image.loading = index === 0 ? 'eager' : 'lazy';
+        image.decoding = 'async';
+        image.sizes = '(min-width: 801px) 50vw, 100vw';
+        if (index === 0) image.fetchPriority = 'high';
         chapter.appendChild(image);
       } else {
         chapter.classList.add('elysian-about-page__chapter--text-only');
