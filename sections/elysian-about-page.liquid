@@ -167,6 +167,11 @@
     margin-right: calc(var(--site-edge) * -1);
   }
 
+  .elysian-about-page__chapter:not(:first-of-type) {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 520px;
+  }
+
   .elysian-about-page__chapter:first-child { margin-top: 0; }
 
   .elysian-about-page__chapter:first-child {
@@ -394,9 +399,9 @@
 
     .elysian-about-page__chapter-copy,
     .elysian-about-page__chapter:nth-child(even) .elysian-about-page__chapter-copy {
-      width: 86%;
-      margin: 0 auto;
-      padding: 3rem 1.5rem;
+      width: 100%;
+      margin: 0;
+      padding: 3rem var(--site-edge);
       order: 2;
     }
 

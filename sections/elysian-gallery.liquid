@@ -17,7 +17,7 @@
       </figure>
     {% endfor %}
 
-    {% for second_year_index in (1..56) %}
+    {% for second_year_index in (1..55) %}
       {% assign second_year_asset = 'gallery-2year-' | append: second_year_index | append: '.jpg' %}
       <figure class="elysian-gallery__item" data-gallery-event="2-year">
         <img src="{{ second_year_asset | asset_url }}" width="1200" height="1800" loading="lazy" decoding="async" alt="Elysian 2 Year">
