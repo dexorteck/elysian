@@ -18,7 +18,7 @@
       <div class="elysian-product__media" id="ProductMedia-{{ section.id }}-{{ media.id }}" data-product-media="{{ media.id }}" data-aspect-ratio="{{ media.preview_image.aspect_ratio | default: 1 }}"{% unless forloop.first %} hidden{% endunless %}>
         {% case media.media_type %}
           {% when 'image' %}
-            <button class="elysian-product__image-button" type="button" data-zoom-image="{{ media | image_url: width: 2400 }}" aria-label="{{ 'products.product.zoom_in' | t }}">
+            <button class="elysian-product__image-button" type="button" data-product-zoom aria-expanded="false" aria-label="{{ 'products.product.zoom_in' | t }}">
             {{ media | image_url: width: 1600 | image_tag: loading: media_loading, widths: '480, 760, 1100, 1600', sizes: '(max-width: 800px) 90vw, 42vw', alt: media.alt }}
             </button>
           {% when 'video' %}
@@ -89,14 +89,6 @@
       {% endif %}
     </div>
   </div>
-  <dialog class="elysian-product__zoom" aria-label="{{ 'products.product.zoom_in' | t }}">
-    <div class="elysian-product__zoom-controls">
-      <button type="button" data-zoom-out aria-label="{{ 'products.product.zoom_out' | t }}">−</button>
-      <button type="button" data-zoom-in aria-label="{{ 'products.product.zoom_in' | t }}">+</button>
-      <button type="button" data-zoom-close aria-label="{{ 'products.product.close' | t }}">×</button>
-    </div>
-    <div class="elysian-product__zoom-viewport"><img width="2400" height="2400" alt=""></div>
-  </dialog>
 </section>
 
 {% stylesheet %}
@@ -164,14 +156,9 @@
 
   .elysian-product__image-button { display: block; width: fit-content; max-width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
   .elysian-product__image-button img { width: auto; max-width: 100%; max-height: min(72svh, 46rem); height: auto; }
-  .elysian-product__zoom { width: 94vw; max-width: 94vw; height: 92svh; max-height: 92svh; margin: auto; padding: 0; border: 0; background: var(--color-background); color: var(--color-foreground); }
-  .elysian-product__zoom::backdrop { background: rgb(0 0 0 / 80%); }
-  .elysian-product__zoom-controls { display: flex; justify-content: flex-end; height: 3.5rem; }
-  .elysian-product__zoom-controls button { width: 3.5rem; border: 0; background: transparent; color: inherit; font-size: 1.5rem; cursor: pointer; }
-  .elysian-product__zoom-controls button:disabled { opacity: 0.3; cursor: default; }
-  .elysian-product__zoom-viewport { height: calc(100% - 3.5rem); overflow: auto; overscroll-behavior: contain; }
-  .elysian-product__zoom-viewport img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .elysian-product__zoom.is-enlarged .elysian-product__zoom-viewport img { width: 200%; max-width: none; height: auto; cursor: zoom-out; }
+  .elysian-product__media.is-zoomed { max-height: min(72svh, 46rem); overflow: auto; overscroll-behavior: contain; }
+  .elysian-product__media.is-zoomed .elysian-product__image-button { width: 200%; max-width: none; cursor: zoom-out; }
+  .elysian-product__media.is-zoomed .elysian-product__image-button img { width: 100%; max-width: none; max-height: none; }
 
   .elysian-product__eyebrow,
   .elysian-product__form label {
@@ -319,28 +306,13 @@
     document.querySelectorAll('[data-product-page]').forEach((page) => {
       if (page.dataset.initialized) return;
       page.dataset.initialized = 'true';
-      const dialog = page.querySelector('.elysian-product__zoom');
-      const zoomImage = dialog.querySelector('img');
-      const zoomIn = dialog.querySelector('[data-zoom-in]');
-      const zoomOut = dialog.querySelector('[data-zoom-out]');
-      const setZoom = (enlarged) => {
-        dialog.classList.toggle('is-enlarged', enlarged);
-        zoomIn.disabled = enlarged;
-        zoomOut.disabled = !enlarged;
-      };
-      page.querySelectorAll('[data-zoom-image]').forEach((button) => {
+      page.querySelectorAll('[data-product-zoom]').forEach((button) => {
         button.addEventListener('click', () => {
-          zoomImage.src = button.dataset.zoomImage;
-          zoomImage.alt = button.querySelector('img').alt;
-          setZoom(false);
-          dialog.showModal();
+          const media = button.closest('[data-product-media]');
+          const enlarged = media.classList.toggle('is-zoomed');
+          button.setAttribute('aria-expanded', String(enlarged));
         });
       });
-      zoomIn.addEventListener('click', () => setZoom(true));
-      zoomOut.addEventListener('click', () => setZoom(false));
-      zoomImage.addEventListener('click', () => setZoom(!dialog.classList.contains('is-enlarged')));
-      dialog.querySelector('[data-zoom-close]').addEventListener('click', () => dialog.close());
-      dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
       let mediaRequest = 0;
       const showMedia = async (id) => {
         const nextPanel = id && page.querySelector(`[data-product-media="${id}"]`);
@@ -358,6 +330,9 @@
             panel.querySelectorAll('iframe').forEach((frame) => { frame.src = frame.src; });
           }
           panel.hidden = true;
+          panel.classList.remove('is-zoomed');
+          const zoomButton = panel.querySelector('[data-product-zoom]');
+          if (zoomButton) zoomButton.setAttribute('aria-expanded', 'false');
         });
         page.style.setProperty('--product-image-ratio', nextPanel.dataset.aspectRatio);
         nextPanel.hidden = false;

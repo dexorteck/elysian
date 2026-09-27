@@ -11,48 +11,26 @@
   </header>
 
   <div class="elysian-shop__grid">
-    {% for block in section.blocks %}
-      {% liquid
-        assign card_product = block.settings.product
-        assign card_url = routes.all_products_collection_url
-        assign card_title = block.settings.fallback_title
-        assign card_price = block.settings.fallback_price
-        assign card_alt = block.settings.fallback_title
-        case block.settings.placeholder
-          when 'yellow'
-            assign placeholder_asset = 'tee-2-shop.jpg'
-          when 'ringer'
-            assign placeholder_asset = 'tee-3-shop.jpg'
-          when 'cream'
-            assign placeholder_asset = 'tee-4-shop.jpg'
-          else
-            assign placeholder_asset = 'tee-1-shop.jpg'
-        endcase
-
-        if card_product != blank
-          assign card_url = card_product.url
-          assign card_title = card_product.title
-          assign card_price = card_product.price | money
-          assign card_alt = card_product.featured_image.alt | default: card_product.title
-        endif
-      %}
-
-      <article class="elysian-shop-card elysian-reveal" style="--card-index: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
-        <a class="elysian-shop-card__image" href="{{ card_url }}">
+    {% for card_product in collections.all.products limit: 4 %}
+      {% assign card_alt = card_product.featured_image.alt | default: card_product.title %}
+      {% assign card_loading = 'lazy' %}
+      {% if forloop.first %}{% assign card_loading = 'eager' %}{% endif %}
+      <article class="elysian-shop-card elysian-reveal" style="--card-index: {{ forloop.index0 }}">
+        <a class="elysian-shop-card__image" href="{{ card_product.url }}">
           {% if card_product.featured_image %}
-            {{ card_product.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '360, 600, 900, 1200', alt: card_alt }}
+            {{ card_product.featured_image | image_url: width: 900 | image_tag: loading: card_loading, widths: '320, 480, 680, 900', sizes: '(min-width: 901px) 25vw, 50vw', alt: card_alt }}
           {% else %}
-            <img src="{{ placeholder_asset | asset_url }}" width="1600" height="2400" loading="lazy" alt="{{ card_alt | escape }}">
+            {{ 'product-1' | placeholder_svg_tag }}
           {% endif %}
-          {% unless card_product == blank %}
-            {% unless card_product.available %}<span class="elysian-shop-card__badge">{{ 'products.product.sold_out' | t }}</span>{% endunless %}
-          {% endunless %}
+          {% unless card_product.available %}<span class="elysian-shop-card__badge">{{ 'products.product.sold_out' | t }}</span>{% endunless %}
         </a>
         <div class="elysian-shop-card__meta">
-          <h3><a href="{{ card_url }}">{{ card_title }}</a></h3>
-          <p>{{ card_price }}</p>
+          <h3><a href="{{ card_product.url }}">{{ card_product.title }}</a></h3>
+          <p>{% if card_product.price_varies %}{{ 'products.product.from_price_html' | t: price: card_product.price_min | money }}{% else %}{{ card_product.price | money }}{% endif %}</p>
         </div>
       </article>
+    {% else %}
+      <p class="elysian-shop__empty">{{ 'collections.collection.empty' | t }}</p>
     {% endfor %}
   </div>
 </section>
@@ -90,8 +68,7 @@
   .elysian-shop__grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(1rem, 1.6vw, 2rem);
-    align-items: start;
+    gap: 1.5rem 1px;
   }
 
   .elysian-shop-card {
@@ -102,8 +79,9 @@
     position: relative;
     display: block;
     overflow: hidden;
-    aspect-ratio: 4 / 5;
-    background: color-mix(in srgb, var(--shop-background) 93%, white);
+    width: 100%;
+    height: clamp(20rem, 58svh, 34rem);
+    background: var(--shop-background);
   }
 
   .elysian-shop-card__image img {
@@ -130,19 +108,18 @@
   }
 
   .elysian-shop-card__meta {
-    display: grid;
-    justify-items: center;
-    gap: 0.35rem;
-    padding-top: 1.15rem;
-    text-align: center;
+    display: block;
+    width: 100%;
+    padding: 0.65rem 0 0.65rem clamp(0.25rem, 0.5vw, 0.5rem);
   }
 
   .elysian-shop-card__meta h3 {
     font-family: var(--font-body-family);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.35;
+    margin: 0;
   }
 
   .elysian-shop-card__meta a {
@@ -150,14 +127,20 @@
   }
 
   .elysian-shop-card__meta p {
-    font-size: 0.65rem;
-    letter-spacing: 0.02em;
+    margin: 0.2rem 0 0;
+    font-size: 0.78rem;
+  }
+
+  .elysian-shop__empty {
+    grid-column: 1 / -1;
+    padding: 4rem 0;
+    border-block: 1px solid color-mix(in srgb, var(--shop-foreground) 18%, transparent);
   }
 
   @media (max-width: 900px) {
     .elysian-shop__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      row-gap: 3.5rem;
+      gap: 2rem 0.75rem;
     }
   }
 
@@ -167,11 +150,7 @@
     }
 
     .elysian-shop__grid {
-      gap: 2.75rem 0.6rem;
-    }
-
-    .elysian-shop-card__meta {
-      padding-top: 0.8rem;
+      gap: 2rem 0.75rem;
     }
   }
 {% endstylesheet %}
