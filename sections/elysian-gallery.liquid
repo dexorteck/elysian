@@ -26,7 +26,8 @@
 
     {% for block in section.blocks %}
       {% liquid
-        case forloop.index0 modulo 5
+        assign fallback_index = forloop.index0 | modulo: 5
+        case fallback_index
           when 0
             assign fallback_asset = 'IMG_2971.jpeg'
           when 1
