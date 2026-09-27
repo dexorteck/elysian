@@ -5,23 +5,6 @@
       <a href="{{ routes.all_products_collection_url }}">{{ section.settings.shop_all_label }}</a>
     </div>
 
-    {% if section.settings.menu.links.size > 0 %}
-      <nav class="elysian-footer__column elysian-footer__column--explore" aria-label="{{ 'accessibility.footer_navigation' | t }}">
-        <p>{{ section.settings.explore_label }}</p>
-        {% for link in section.settings.menu.links %}
-          {% unless link.url contains '/search' %}
-            {% assign footer_link_label = link.title | replace: 'A minha loja', 'Elysian Groove' %}
-            {% if link.url == routes.root_url %}{% assign footer_link_label = 'Home' %}{% endif %}
-            {% if link.url contains '/pages/contact' %}{% assign footer_link_label = 'Contact' %}{% endif %}
-            {% if link.url contains '/pages/about' %}{% assign footer_link_label = 'About' %}{% endif %}
-            {% if link.url contains '/pages/gallery' %}{% assign footer_link_label = 'Gallery' %}{% endif %}
-            {% if link.url contains '/collections' %}{% assign footer_link_label = 'Shop' %}{% endif %}
-            <a href="{{ link.url }}">{{ footer_link_label }}</a>
-          {% endunless %}
-        {% endfor %}
-      </nav>
-    {% endif %}
-
     <div class="elysian-footer__column elysian-footer__column--follow">
       <p>{{ section.settings.follow_label }}</p>
       {% if section.settings.instagram_url %}<a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
@@ -83,7 +66,7 @@
 {% stylesheet %}
   .elysian-footer {
     display: grid;
-    grid-template-columns: minmax(8rem, 1.45fr) repeat(4, minmax(0, 1fr)) minmax(15rem, 1.45fr);
+    grid-template-columns: minmax(8rem, 1.45fr) repeat(3, minmax(0, 1fr)) minmax(15rem, 1.45fr);
     column-gap: clamp(1.5rem, 3vw, 4rem);
     row-gap: 4rem;
     min-height: auto;
@@ -105,9 +88,8 @@
   }
 
   .elysian-footer__column--shop { grid-column: 2; }
-  .elysian-footer__column--explore { grid-column: 3; }
-  .elysian-footer__column--follow { grid-column: 4; }
-  .elysian-footer__column--location { grid-column: 5; }
+  .elysian-footer__column--follow { grid-column: 3; }
+  .elysian-footer__column--location { grid-column: 4; }
 
   .elysian-footer__column p,
   .elysian-footer__newsletter > p {
@@ -255,7 +237,6 @@
     }
 
     .elysian-footer__column--shop,
-    .elysian-footer__column--explore,
     .elysian-footer__column--follow,
     .elysian-footer__column--location {
       grid-column: auto;
