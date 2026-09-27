@@ -3,21 +3,21 @@
     <div class="elysian-footer__column elysian-footer__column--shop">
       <p>{{ section.settings.shop_label }}</p>
       <a href="{{ routes.all_products_collection_url }}">{{ section.settings.shop_all_label }}</a>
-      <a href="{{ routes.search_url }}">{{ 'search.title' | t }}</a>
     </div>
 
     {% if section.settings.menu.links.size > 0 %}
       <nav class="elysian-footer__column elysian-footer__column--explore" aria-label="{{ 'accessibility.footer_navigation' | t }}">
         <p>{{ section.settings.explore_label }}</p>
         {% for link in section.settings.menu.links %}
-          {% assign footer_link_label = link.title | replace: 'A minha loja', 'Elysian Groove' %}
-          {% if link.url == routes.root_url %}{% assign footer_link_label = 'Home' %}{% endif %}
-          {% if link.url contains '/pages/contact' %}{% assign footer_link_label = 'Contact' %}{% endif %}
-          {% if link.url contains '/pages/about' %}{% assign footer_link_label = 'About' %}{% endif %}
-          {% if link.url contains '/pages/gallery' %}{% assign footer_link_label = 'Gallery' %}{% endif %}
-          {% if link.url contains '/search' %}{% assign footer_link_label = 'Search' %}{% endif %}
-          {% if link.url contains '/collections' %}{% assign footer_link_label = 'Shop' %}{% endif %}
-          <a href="{{ link.url }}">{{ footer_link_label }}</a>
+          {% unless link.url contains '/search' %}
+            {% assign footer_link_label = link.title | replace: 'A minha loja', 'Elysian Groove' %}
+            {% if link.url == routes.root_url %}{% assign footer_link_label = 'Home' %}{% endif %}
+            {% if link.url contains '/pages/contact' %}{% assign footer_link_label = 'Contact' %}{% endif %}
+            {% if link.url contains '/pages/about' %}{% assign footer_link_label = 'About' %}{% endif %}
+            {% if link.url contains '/pages/gallery' %}{% assign footer_link_label = 'Gallery' %}{% endif %}
+            {% if link.url contains '/collections' %}{% assign footer_link_label = 'Shop' %}{% endif %}
+            <a href="{{ link.url }}">{{ footer_link_label }}</a>
+          {% endunless %}
         {% endfor %}
       </nav>
     {% endif %}

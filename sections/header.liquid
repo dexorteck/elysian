@@ -27,14 +27,16 @@
       {% for link in section.settings.menu.links %}
         {% if link.url contains '/pages/about' %}{% assign has_about_link = true %}{% endif %}
         {% if link.url contains '/pages/gallery' %}{% assign has_gallery_link = true %}{% endif %}
-        {% assign link_label = link.title | replace: 'A minha loja', 'Elysian Groove' %}
-        {% assign link_class = '' %}
-        {% if link.url == routes.root_url %}{% assign link_label = 'Home' %}{% endif %}
-        {% if link.url contains '/pages/contact' %}{% assign link_label = 'Contact' %}{% assign link_class = ' elysian-header__nav-link--contact' %}{% endif %}
-        {% if link.url contains '/pages/about' %}{% assign link_label = 'About' %}{% endif %}
-        {% if link.url contains '/pages/gallery' %}{% assign link_label = 'Gallery' %}{% endif %}
-        {% if link.url contains '/collections' %}{% assign link_label = 'Shop' %}{% endif %}
-        <a class="{{ link_class }}" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link_label }}</a>
+        {% unless link.url contains '/search' %}
+          {% assign link_label = link.title | replace: 'A minha loja', 'Elysian Groove' %}
+          {% assign link_class = '' %}
+          {% if link.url == routes.root_url %}{% assign link_label = 'Home' %}{% endif %}
+          {% if link.url contains '/pages/contact' %}{% assign link_label = 'Contact' %}{% assign link_class = ' elysian-header__nav-link--contact' %}{% endif %}
+          {% if link.url contains '/pages/about' %}{% assign link_label = 'About' %}{% endif %}
+          {% if link.url contains '/pages/gallery' %}{% assign link_label = 'Gallery' %}{% endif %}
+          {% if link.url contains '/collections' %}{% assign link_label = 'Shop' %}{% endif %}
+          <a class="{{ link_class }}" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link_label }}</a>
+        {% endunless %}
       {% endfor %}
       {% unless has_about_link %}<a href="/pages/about">{{ 'navigation.about' | t }}</a>{% endunless %}
       {% unless has_gallery_link %}<a href="/pages/gallery">{{ 'navigation.gallery' | t }}</a>{% endunless %}
@@ -170,7 +172,7 @@
     gap: 1.5rem;
     padding: 0.75rem 0.95rem;
     border: 1px solid color-mix(in srgb, var(--color-foreground) 58%, transparent);
-    border-radius: 999px;
+    border-radius: 0;
     transition: background 220ms ease, color 220ms ease, transform 220ms ease;
   }
 
@@ -263,8 +265,11 @@
     .elysian-header__nav {
       position: absolute;
       top: 100%;
-      right: 0;
-      left: 0;
+      left: 50%;
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: -50vw;
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
@@ -273,7 +278,7 @@
       visibility: hidden;
       opacity: 0;
       background: var(--color-background);
-      transform: translate3d(-1rem, 0, 0);
+      transform: translate3d(0, -0.5rem, 0);
       transition: opacity 250ms ease, transform 250ms ease, visibility 250ms;
     }
 
@@ -290,7 +295,7 @@
     .elysian-header__nav.is-open {
       visibility: visible;
       opacity: 1;
-      transform: none;
+      transform: translate3d(0, 0, 0);
     }
 
     .elysian-header__nav a {
