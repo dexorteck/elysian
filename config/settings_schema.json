@@ -18,7 +18,7 @@
     "name": "t:general.typography",
     "settings": [
       { "type": "font_picker", "id": "type_primary_font", "default": "barlow_semi_condensed_n4", "label": "t:general.primary" },
-      { "type": "font_picker", "id": "type_display_font", "default": "barlow_condensed_i9", "label": "t:labels.display_font" }
+      { "type": "font_picker", "id": "type_display_font", "default": "barlow_condensed_n9", "label": "t:labels.display_font" }
     ]
   },
   {

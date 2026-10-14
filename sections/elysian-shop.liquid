@@ -15,9 +15,21 @@
       {% assign card_alt = card_product.featured_image.alt | default: card_product.title %}
       {% assign card_loading = 'lazy' %}
       {% if forloop.first %}{% assign card_loading = 'eager' %}{% endif %}
+      {% assign has_custom_eyes_dj_image = false %}
+      {% if card_product.title contains 'Eyes on the DJ Long-Sleeve Tee' %}
+        {% assign has_custom_eyes_dj_image = true %}
+      {% endif %}
+      {% assign has_custom_too_busy_image = false %}
+      {% if card_product.title contains 'Too Busy Tee' %}
+        {% assign has_custom_too_busy_image = true %}
+      {% endif %}
       <article class="elysian-shop-card elysian-reveal" style="--card-index: {{ forloop.index0 }}">
-        <a class="elysian-shop-card__image" href="{{ card_product.url }}">
-          {% if card_product.featured_image %}
+        <a class="elysian-shop-card__image{% if has_custom_eyes_dj_image or has_custom_too_busy_image %} elysian-shop-card__image--asset{% endif %}" href="{{ card_product.url }}">
+          {% if has_custom_eyes_dj_image %}
+            <img src="{{ 'frente_afastado_1.png' | asset_url }}" width="1254" height="1254" loading="{{ card_loading }}" alt="{{ card_alt | escape }}">
+          {% elsif has_custom_too_busy_image %}
+            <img src="{{ 'frente_2.png' | asset_url }}" width="1254" height="1254" loading="{{ card_loading }}" alt="{{ card_alt | escape }}">
+          {% elsif card_product.featured_image %}
             {{ card_product.featured_image | image_url: width: 900 | image_tag: loading: card_loading, widths: '320, 480, 680, 900', sizes: '(min-width: 901px) 25vw, 50vw', alt: card_alt }}
           {% else %}
             {{ 'product-1' | placeholder_svg_tag }}
@@ -91,6 +103,14 @@
     transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  .elysian-shop-card__image--asset {
+    background: #f7f7f5;
+  }
+
+  .elysian-shop-card__image--asset img {
+    object-fit: cover;
+  }
+
   .elysian-shop-card:hover .elysian-shop-card__image img {
     transform: scale(1.025);
   }
@@ -142,16 +162,25 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 2rem 0.75rem;
     }
+
+    .elysian-shop-card__image {
+      height: clamp(18rem, 48svh, 29rem);
+    }
   }
 
-  @media (max-width: 520px) {
+  @media (max-width: 680px) {
     .elysian-shop__bar {
       margin-bottom: 1.75rem;
     }
 
     .elysian-shop__grid {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 2rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem 0.5rem;
+    }
+
+    .elysian-shop-card__image {
+      height: auto;
+      aspect-ratio: 2 / 3;
     }
   }
 {% endstylesheet %}

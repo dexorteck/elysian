@@ -57,7 +57,8 @@
   }
 
   .elysian-newsletter__form {
-    max-width: 42rem;
+    width: min(100%, 64rem);
+    max-width: none;
   }
 
   .elysian-newsletter__field {
@@ -117,6 +118,21 @@
   @media (max-width: 680px) {
     .elysian-newsletter h2 {
       font-size: 22vw;
+    }
+  }
+
+  @media (min-width: 681px) and (max-width: 1000px) {
+    .elysian-newsletter {
+      padding-block: 7rem 8rem;
+    }
+
+    .elysian-newsletter h2 {
+      margin-block: 3.5rem;
+      font-size: clamp(5rem, 11vw, 8rem);
+    }
+
+    .elysian-newsletter__form {
+      width: min(100%, 56rem);
     }
   }
 {% endstylesheet %}

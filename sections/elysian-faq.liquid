@@ -6,7 +6,7 @@
       <img src="{{ 'gallery-2year-41.jpg' | asset_url }}" width="1600" height="1067" loading="lazy" alt="Elysian Groove at Elysian's second anniversary">
     </div>
   {% endif %}
-  <h2 class="elysian-faq__title">FAQ</h2>
+  <h2 class="elysian-faq__title">{{ section.settings.heading | default: 'FAQ' }}</h2>
   <div class="elysian-faq__list">
     {% for block in section.blocks %}
       <details class="elysian-faq__item" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>

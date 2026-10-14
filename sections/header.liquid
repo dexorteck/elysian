@@ -1,7 +1,7 @@
 {% liquid
   assign announcement_url = section.settings.announcement_link
   if announcement_url == blank
-    assign announcement_url = routes.root_url | append: '#shop'
+    assign announcement_url = 'https://xceed.me/en/lisboa/event/elysian-groove-still-on-vacation/244549/channel/elysian-groove?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAadqkynMRyKeIqagl75PByYuMdJ7d72PhYBaLiInow8uZUnadj1xw2u8USqG9Q_aem__nzLMy1LT8nm_7EowEtvcw&utm_id=97760_v0_s00_e0_tv3'
   endif
 %}
 
@@ -55,7 +55,7 @@
       </a>
     {% endif %}
 
-    <a class="elysian-header__ticket" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
+    <a class="elysian-header__ticket" href="{{ section.settings.cta_link | default: 'https://xceed.me/en/lisboa/event/elysian-groove-still-on-vacation/244549/channel/elysian-groove?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAadqkynMRyKeIqagl75PByYuMdJ7d72PhYBaLiInow8uZUnadj1xw2u8USqG9Q_aem__nzLMy1LT8nm_7EowEtvcw&utm_id=97760_v0_s00_e0_tv3' }}">
       {{ section.settings.cta_label }}
       <svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
     </a>
@@ -247,7 +247,7 @@
     transform: translateY(-0.35rem) rotate(-45deg);
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     .elysian-announcement {
       overflow: hidden;
       padding-inline: var(--site-edge);

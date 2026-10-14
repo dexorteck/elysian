@@ -14,32 +14,60 @@
           "type": "faq",
           "settings": {
             "question": "How do I hear about the next event?",
-            "answer": "Join the club to receive first access to event announcements and ticket releases."
+            "answer": "Follow us on Instagram and sign up for our mailing list. New dates, locations, line-ups and ticket releases are announced there first."
           }
         },
         "ticket": {
           "type": "faq",
           "settings": {
-            "question": "Do clothing purchases include an event ticket?",
-            "answer": "Selected drops include a ticket to the next Elysian event. The offer is shown on the product and at checkout."
+            "question": "Where can I buy tickets?",
+            "answer": "Tickets are available through the link in our Instagram bio or directly through Nextid, our official ticketing partner and sponsor. Tickets sold through any other platform are not official Elysian Groove tickets."
+          }
+        },
+        "venue": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I find the venue and event times?",
+            "answer": "All essential information — including the venue, opening times and entry details — is shared on our Instagram and through the link in our bio."
+          }
+        },
+        "age": {
+          "type": "faq",
+          "settings": {
+            "question": "Are Elysian Groove events 18+?",
+            "answer": "Yes. All Elysian Groove events are strictly for guests aged 18 and over. Please bring a valid physical ID."
+          }
+        },
+        "tickets": {
+          "type": "faq",
+          "settings": {
+            "question": "Are tickets refundable or transferable?",
+            "answer": "Tickets are non-refundable. We only recognise tickets issued through Nextid. Any permitted ticket management or transfer must be handled through Nextid; tickets obtained through other platforms are not official and may not be accepted."
+          }
+        },
+        "clothing": {
+          "type": "faq",
+          "settings": {
+            "question": "Does a clothing purchase include a ticket to the next event?",
+            "answer": "Yes. Every T-shirt or long-sleeve purchase includes one ticket to the next Elysian Groove event. Ticket details will be sent to the email used at checkout."
           }
         },
         "shipping": {
           "type": "faq",
           "settings": {
             "question": "How long does shipping take?",
-            "answer": "Orders are prepared in Lisbon and dispatched as soon as possible. You will receive tracking details by email."
+            "answer": "Orders are prepared as quickly as possible. Estimated delivery times and shipping costs are displayed at checkout and depend on the destination."
           }
         },
-        "returns": {
+        "exchange": {
           "type": "faq",
           "settings": {
-            "question": "Can I return an item?",
-            "answer": "Contact us within 14 days of delivery and we will guide you through the return process."
+            "question": "Can I exchange an item?",
+            "answer": "Yes. Items can be exchanged as long as they are unworn, unwashed and in their original condition. Contact us with your order number and we’ll guide you through the process."
           }
         }
       },
-      "block_order": ["event", "ticket", "shipping", "returns"]
+      "block_order": ["event", "ticket", "venue", "age", "tickets", "clothing", "shipping", "exchange"]
     },
     "footer": {
       "type": "footer",

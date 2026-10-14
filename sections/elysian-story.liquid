@@ -23,7 +23,7 @@
   }
 
   .elysian-story__body {
-    max-width: 78rem;
+    max-width: 90rem;
     margin-inline: 0;
     font-size: clamp(1.15rem, 2.1vw, 2rem);
     line-height: 1.4;
@@ -48,8 +48,18 @@
   .elysian-story__link svg { width: 1rem; color: var(--color-accent); }
 
   @media (max-width: 700px) {
-    .elysian-story { display: block; }
-    .elysian-story__body { margin-top: 2rem; font-size: 1.15rem; }
+    .elysian-story { display: block; padding-top: 2rem; }
+    .elysian-story__body { margin-top: 0; padding-inline-start: 0; font-size: 1.15rem; }
+  }
+
+  @media (min-width: 701px) and (max-width: 1000px) {
+    .elysian-story {
+      padding-block: 4rem 6rem;
+    }
+
+    .elysian-story__body {
+      font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+    }
   }
 {% endstylesheet %}
 
