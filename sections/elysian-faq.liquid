@@ -9,7 +9,7 @@
   <h2 class="elysian-faq__title">{{ section.settings.heading | default: 'FAQ' }}</h2>
   <div class="elysian-faq__list">
     {% for block in section.blocks %}
-      {% if template.name == 'index' %}
+      {% if template.name == 'index' or template.suffix == 'about' %}
         {% if forloop.index > 4 %}{% break %}{% endif %}
       {% endif %}
       <details class="elysian-faq__item" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
@@ -20,7 +20,7 @@
         <div class="elysian-faq__answer">{{ block.settings.answer }}</div>
       </details>
     {% endfor %}
-    {% if template.name == 'index' %}
+    {% if template.name == 'index' or template.suffix == 'about' %}
       <a class="elysian-faq__more" href="/pages/contact#faqs">
         View all questions
         <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M3 13 13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
