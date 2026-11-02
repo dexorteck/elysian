@@ -60,7 +60,7 @@
       "type": "elysian-story",
       "settings": {
         "eyebrow": "Our story",
-        "link_label": "Read our story",
+        "link_label": "Discover our story",
         "link": "/pages/about"
       }
     }

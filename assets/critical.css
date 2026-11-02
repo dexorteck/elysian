@@ -10,13 +10,20 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+@media (max-width: 800px) {
+  .product-title-mobile-break {
+    display: block;
+  }
 }
 
 body {
   display: flex;
   flex-direction: column;
   min-height: 100svh;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-primary-family);

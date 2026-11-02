@@ -37,7 +37,7 @@
           {% unless card_product.available %}<span class="elysian-shop-card__badge">{{ 'products.product.sold_out' | t }}</span>{% endunless %}
         </a>
         <div class="elysian-shop-card__meta">
-          <h3><a href="{{ card_product.url }}">{{ card_product.title }}</a></h3>
+          <h3><a href="{{ card_product.url }}">{{ card_product.title | escape | replace: 'Eyes on the DJ Long-Sleeve Tee', 'Eyes on the DJ<span class="product-title-mobile-break"> </span>Long-Sleeve Tee' }}</a></h3>
           <p>{% if card_product.price_varies %}{{ 'products.product.from_price_html' | t: price: card_product.price_min | money }}{% else %}{{ card_product.price | money }}{% endif %}</p>
         </div>
       </article>
@@ -65,8 +65,8 @@
 
   .elysian-shop__bar h2,
   .elysian-shop__bar a {
-    font-family: var(--font-body-family);
-    font-size: 0.78rem;
+    font-family: var(--font-primary-family);
+    font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -75,6 +75,11 @@
   .elysian-shop__bar a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .elysian-shop__bar h2 {
+    font-size: 0.9375rem;
+    line-height: normal;
   }
 
   .elysian-shop__grid {
@@ -134,8 +139,8 @@
   }
 
   .elysian-shop-card__meta h3 {
-    font-family: var(--font-body-family);
-    font-size: 0.75rem;
+    font-family: var(--font-primary-family);
+    font-size: 0.9375rem;
     font-weight: 400;
     letter-spacing: normal;
     line-height: 1.35;
@@ -148,7 +153,7 @@
 
   .elysian-shop-card__meta p {
     margin: 0.2rem 0 0;
-    font-size: 0.78rem;
+    font-size: 0.875rem;
   }
 
   .elysian-shop__empty {

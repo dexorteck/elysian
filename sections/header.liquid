@@ -73,6 +73,16 @@
 </header>
 
 {% stylesheet %}
+  .shopify-section:has(> .elysian-header) {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+
+  .elysian-header.is-scrolled {
+    background: var(--color-background);
+  }
+
   .elysian-announcement {
     position: relative;
     z-index: 11;
@@ -111,7 +121,7 @@
   }
 
   .elysian-header--overlay.elysian-header--with-announcement {
-    top: 2.1rem;
+    top: 100%;
   }
 
   .elysian-header__logo {
@@ -326,6 +336,12 @@
 
 {% javascript %}
   document.querySelectorAll('[data-elysian-header]').forEach((header) => {
+    const updateScrollState = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 16);
+    };
+    updateScrollState();
+    window.addEventListener('scroll', updateScrollState, { passive: true });
+
     const button = header.querySelector('[data-elysian-menu-button]');
     const menu = header.querySelector('[data-elysian-menu]');
     if (!button || !menu) return;

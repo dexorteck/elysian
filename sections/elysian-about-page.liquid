@@ -217,8 +217,9 @@
 
   .elysian-about-page__chapter-copy p {
     max-width: 40rem;
-    text-align: justify !important;
-    text-justify: inter-word;
+    text-align: left;
+    text-indent: 0;
+    line-height: 1.65;
   }
 
   .elysian-about-page__chapter-copy > * + * {
@@ -231,8 +232,7 @@
 
   @media (min-width: 801px) {
     .elysian-about-page__chapter-copy {
-      padding-left: clamp(3rem, 8vw, 8rem);
-      padding-right: clamp(1rem, 2vw, 2rem);
+      padding-inline: clamp(1.5rem, 4vw, 4rem);
     }
   }
 
@@ -403,6 +403,8 @@
       margin: 0;
       padding: 3rem var(--site-edge);
       order: 2;
+      font-size: 1rem;
+      line-height: 1.65;
     }
 
     .elysian-about-page__chapter-image,
@@ -481,7 +483,7 @@
     { "type": "text", "id": "image_alt", "label": "t:labels.image_alt", "default": "The Elysian community dancing together" },
     { "type": "textarea", "id": "stamp", "label": "t:labels.stamp", "default": "EST. 2023\nLISBON" },
     { "type": "textarea", "id": "statement", "label": "Statement", "default": "We don't throw parties. We create memories." },
-    { "type": "richtext", "id": "body", "label": "t:labels.body", "default": "<p>Born under Lisbon's golden skies, Elysian is a community built around music, movement and the moments you wish would never end.</p><p>From first light to last track — come as you are, leave as part of something.</p>" },
+    { "type": "richtext", "id": "body", "label": "t:labels.body", "default": "<p>Born under Lisbon's golden skies, Elysian is a community built around music, movement and the moments you wish would never end.</p><p>From first light to last track. Come as you are, leave as part of something.</p>" },
     { "type": "text", "id": "link_label", "label": "t:labels.link_label", "default": "Follow the journey" },
     { "type": "url", "id": "link", "label": "t:labels.link" },
     { "type": "text", "id": "closing_eyebrow", "label": "Closing label", "default": "Our philosophy" },

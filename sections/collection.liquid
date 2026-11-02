@@ -33,7 +33,7 @@
             {% if product.compare_at_price_max > product.price %}<span>{{ 'products.product.sale' | t }}</span>{% endif %}
           </a>
           <div class="elysian-product-card__content">
-            <h2><a href="{{ product.url }}">{{ product.title }}</a></h2>
+            <h2><a href="{{ product.url }}">{{ product.title | escape | replace: 'Eyes on the DJ Long-Sleeve Tee', 'Eyes on the DJ<span class="product-title-mobile-break"> </span>Long-Sleeve Tee' }}</a></h2>
             <p>{% if product.price_varies %}{{ 'products.product.from_price_html' | t: price: minimum_price }}{% else %}{{ product.price | money }}{% endif %}</p>
           </div>
         </article>
@@ -95,11 +95,12 @@
     border: 0;
     background: var(--color-background);
     color: inherit;
-    font-size: 0.75rem;
+    font-size: 0.9375rem;
   }
 
   .elysian-collection__grid {
     display: grid;
+    padding-inline: var(--site-edge);
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.5rem 1px;
   }
@@ -160,7 +161,7 @@
 
   .elysian-product-card__content p {
     margin: 0.2rem 0 0;
-    font-size: 0.78rem;
+    font-size: 0.875rem;
   }
 
   .elysian-pagination {
