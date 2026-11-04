@@ -1,7 +1,8 @@
 <section class="elysian-hero full-width" aria-labelledby="ElysianHeroTitle-{{ section.id }}">
   <div class="elysian-hero__media" aria-hidden="true">
     <video autoplay muted loop playsinline preload="auto">
-      <source src="{{ 'thank-you-lisboa.mp4' | asset_url }}" type="video/mp4">
+      <source src="{{ 'elysian-hero-mobile.mp4' | asset_url }}" media="(max-width: 800px)" type="video/mp4">
+      <source src="{{ 'elysian-hero-desktop.mp4' | asset_url }}" type="video/mp4">
     </video>
   </div>
   <div class="elysian-hero__shade" aria-hidden="true"></div>

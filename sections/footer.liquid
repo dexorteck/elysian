@@ -13,7 +13,10 @@
 
     <div class="elysian-footer__column elysian-footer__column--location">
       <p>{{ section.settings.location_label }}</p>
-      <span>{{ section.settings.tagline | newline_to_br }}</span>
+      {% for policy in shop.policies %}
+        {% if policy.body != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}
+      {% endfor %}
+      <a href="/pages/contact">Contact</a>
     </div>
   </div>
 
@@ -59,6 +62,7 @@
 
   <div class="elysian-footer__bottom">
     <p>&copy; {{ 'now' | date: '%Y' }} Elysian</p>
+    <a href="https://www.instagram.com/closrstudio/" target="_blank" rel="noopener noreferrer">Made by CLOSR</a>
     <a href="#top">{{ section.settings.back_to_top_label }}</a>
   </div>
 </footer>
@@ -101,6 +105,7 @@
   }
 
   .elysian-footer__column a,
+  .elysian-footer__cookie-preferences,
   .elysian-footer__column span {
     font-size: 0.68rem;
     font-weight: 600;
@@ -112,6 +117,15 @@
 
   .elysian-footer__column a {
     transition: color 220ms ease;
+  }
+
+  .elysian-footer__cookie-preferences {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
   }
 
   .elysian-footer__column a:hover {
@@ -208,6 +222,7 @@
     grid-column: 1 / -1;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 2rem;
     margin-top: 1rem;
@@ -218,6 +233,22 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
+
+  .elysian-footer__legal {
+    grid-column: 1 / -1;
+    width: 100%;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--color-foreground) 75%, transparent);
+  }
+
+  .elysian-footer__policies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+  }
+
+  .elysian-footer__policies a { text-underline-offset: 0.25em; }
 
   .elysian-footer__bottom a {
     text-decoration: none;

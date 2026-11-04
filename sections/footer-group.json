@@ -21,7 +21,7 @@
           "type": "faq",
           "settings": {
             "question": "Where can I buy tickets?",
-            "answer": "Tickets are available through the link in our Instagram bio or directly through Nextid, our official ticketing partner and sponsor. Tickets sold through any other platform are not official Elysian Groove tickets."
+            "answer": "Tickets are available through the link in our Instagram bio or directly through Xceed, our official ticketing partner. Tickets sold through any other platform are not official Elysian Groove tickets."
           }
         },
         "venue": {
@@ -42,7 +42,7 @@
           "type": "faq",
           "settings": {
             "question": "Are tickets refundable or transferable?",
-            "answer": "Tickets are non-refundable. We only recognise tickets issued through Nextid. Any permitted ticket management or transfer must be handled through Nextid; tickets obtained through other platforms are not official and may not be accepted."
+            "answer": "Tickets are non-refundable. We only recognise tickets issued through Xceed. Any permitted ticket management or transfer must be handled through Xceed; tickets obtained through other platforms are not official and may not be accepted."
           }
         },
         "clothing": {
@@ -80,7 +80,7 @@
         "shop_all_label": "Shop all",
         "explore_label": "Explore",
         "follow_label": "Follow us",
-        "location_label": "Where we are",
+        "location_label": "Information",
         "newsletter_eyebrow": "Join the club",
         "newsletter_note": "No spam. Just parties.",
         "back_to_top_label": "Back to top"

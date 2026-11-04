@@ -1,0 +1,86 @@
+{% if request.page_type == 'index' %}
+  <dialog class="drop-popup" data-drop-popup aria-labelledby="DropPopupTitle">
+    <button class="drop-popup__close" type="button" aria-label="Close offer" data-drop-close>×</button>
+    <div class="drop-popup__layout">
+      <img class="drop-popup__poster" src="{{ 'event-now-poster.jpeg' | asset_url }}" width="1350" height="1688" alt="Elysian presents Still on Vacation, November 7, Fábrica XL, LX Factory" loading="lazy">
+      <div class="drop-popup__copy">
+        <p class="drop-popup__label">The drop gets you in</p>
+        <h2 id="DropPopupTitle">Buy the drop<br>Get a ticket</h2>
+        <p>Every tee includes a ticket to our next event</p>
+        <a class="drop-popup__cta" href="{{ routes.all_products_collection_url }}">Shop the drop <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </dialog>
+{% endif %}
+
+{% stylesheet %}
+  .drop-popup {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(60rem, calc(100% - 2rem));
+    max-height: calc(100svh - 2rem);
+    padding: 0;
+    overflow: auto;
+    border: 1px solid #ffffff26;
+    background: #090909;
+    color: #f0eadf;
+    font-family: var(--font-primary-family);
+  }
+  .drop-popup::backdrop { background: #000b; }
+  html:has(.drop-popup[open]) { overflow: hidden; }
+  .drop-popup__layout { display: grid; grid-template-columns: 1fr 1fr; }
+  .drop-popup__poster { width: 100%; height: 100%; object-fit: cover; }
+  .drop-popup__copy { display: flex; flex-direction: column; justify-content: center; padding: 3rem 2rem; }
+  .drop-popup__label { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .drop-popup h2 { font-size: clamp(2rem, 4vw, 3.25rem); font-weight: 600; line-height: 1.05; letter-spacing: -0.04em; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .drop-popup__copy > p:not(.drop-popup__label) { font-size: 1rem; line-height: 1.6; }
+  .drop-popup__cta { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem; margin-top: 2rem; background: var(--color-accent); color: #fff; text-decoration: none; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+  .drop-popup__close { position: absolute; top: 0.75rem; right: 0.75rem; width: 2.75rem; height: 2.75rem; border: 1px solid #ffffff40; background: #090909; color: #fff; font-size: 1.75rem; cursor: pointer; }
+  .drop-popup__skip { align-self: center; padding: 0.75rem; margin-top: 0.75rem; border: 0; background: transparent; color: inherit; font-size: 0.75rem; text-decoration: underline; text-underline-offset: 0.25em; cursor: pointer; }
+  @media (min-width: 601px) {
+    .drop-popup h2 {
+      font-size: clamp(1.5rem, 3.4vw, 3rem);
+      white-space: nowrap;
+    }
+  }
+  @media (max-width: 600px) {
+    .drop-popup { width: min(22rem, calc(100% - 2rem)); }
+    .drop-popup__layout { grid-template-columns: 1fr; }
+    .drop-popup__poster {
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 1350 / 1688;
+      object-fit: contain;
+      object-position: center;
+    }
+    .drop-popup__copy { padding: 1.25rem; }
+    .drop-popup__label { margin-bottom: 0.6rem; font-size: 0.625rem; }
+    .drop-popup h2 { font-size: 1.75rem; margin-bottom: 0.6rem; }
+    .drop-popup__copy > p:not(.drop-popup__label) { font-size: 0.875rem; line-height: 1.45; }
+    .drop-popup__cta { margin-top: 1rem; padding: 0.9rem 1rem; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  const offer = document.querySelector('[data-drop-popup]');
+  if (offer) {
+    let seen = false;
+    try { seen = sessionStorage.getItem('elysian-drop-offer') === 'seen'; } catch {}
+    offer.querySelectorAll('[data-drop-close]').forEach((button) => button.addEventListener('click', () => offer.close()));
+    offer.addEventListener('click', (event) => { if (event.target === offer && (event.clientX < offer.getBoundingClientRect().left || event.clientX > offer.getBoundingClientRect().right || event.clientY < offer.getBoundingClientRect().top || event.clientY > offer.getBoundingClientRect().bottom)) offer.close(); });
+    const showOffer = () => {
+      if (document.querySelector('dialog[open]') || document.querySelector('#shopify-pc__banner')) {
+        setTimeout(showOffer, 1500);
+        return;
+      }
+      offer.showModal();
+      try { sessionStorage.setItem('elysian-drop-offer', 'seen'); } catch {}
+    };
+    if (!seen) setTimeout(showOffer, 3000);
+  }
+{% endjavascript %}
+
+{% schema %}
+{ "name": "Drop offer popup", "settings": [] }
+{% endschema %}

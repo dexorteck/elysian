@@ -25,7 +25,11 @@
         {% assign minimum_price = product.price_min | money %}
         <article class="elysian-product-card">
           <a class="elysian-product-card__image" href="{{ product.url }}">
-            {% if product.featured_image %}
+            {% if product.title contains 'Eyes on the DJ Long-Sleeve Tee' %}
+              <img src="{{ 'frente_afastado_1.png' | asset_url }}" width="1254" height="1254" loading="lazy" alt="{{ product.title | escape }}">
+            {% elsif product.title contains 'Too Busy Tee' %}
+              <img src="{{ 'frente_2.png' | asset_url }}" width="1254" height="1254" loading="lazy" alt="{{ product.title | escape }}">
+            {% elsif product.featured_image %}
               {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '320, 480, 680, 900', alt: product.featured_image.alt | default: product.title }}
             {% else %}
               {{ 'product-1' | placeholder_svg_tag }}

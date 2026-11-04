@@ -13,6 +13,68 @@ html {
   overflow-x: clip;
 }
 
+/* Shopify-hosted policy pages share the storefront's typography and gutters. */
+.shopify-policy__container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 5rem) var(--site-edge) clamp(4rem, 7vw, 7rem);
+  font-family: var(--font-primary-family);
+}
+
+.shopify-policy__title {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  text-align: left;
+}
+
+.shopify-policy__title h1 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.shopify-policy__body {
+  color: color-mix(in srgb, var(--color-foreground) 85%, transparent);
+  font-size: clamp(1rem, 1.1vw, 1.0625rem);
+  line-height: 1.75;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.shopify-policy__body p { margin: 0 0 1.25rem; }
+.shopify-policy__body h2,
+.shopify-policy__body h3,
+.shopify-policy__body h4 {
+  margin: 2.5rem 0 1rem;
+  color: var(--color-foreground);
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.shopify-policy__body ul,
+.shopify-policy__body ol {
+  padding-left: 1.25rem;
+  margin: 1rem 0 1.75rem;
+}
+
+.shopify-policy__body li { padding-left: 0.25rem; margin-bottom: 0.75rem; }
+.shopify-policy__body a { text-decoration: underline; text-underline-offset: 0.2em; }
+.shopify-policy__body a:hover { color: var(--color-foreground); }
+.shopify-policy__body strong { color: var(--color-foreground); font-weight: 600; }
+
+@media (max-width: 700px) {
+  .shopify-policy__body { line-height: 1.65; }
+  .shopify-policy__body h2,
+  .shopify-policy__body h3,
+  .shopify-policy__body h4 { margin-top: 2rem; }
+}
+
 @media (max-width: 800px) {
   .product-title-mobile-break {
     display: block;
