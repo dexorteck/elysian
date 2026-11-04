@@ -291,21 +291,69 @@ p:empty {
 }
 
 @media (max-width: 700px) {
+  #shopify-pc__banner {
+    box-sizing: border-box !important;
+    max-height: 85svh !important;
+    overflow-y: auto !important;
+    text-align: center !important;
+  }
+
   #shopify-pc__banner .shopify-pc__banner__body,
   #shopify-pc__banner__body {
-    align-items: flex-start !important;
+    box-sizing: border-box !important;
+    align-items: stretch !important;
     flex-direction: column !important;
-    gap: 0.65rem !important;
-    padding: 0.75rem var(--site-edge) !important;
+    gap: 1rem !important;
+    padding: 1.25rem var(--site-edge) max(1.25rem, env(safe-area-inset-bottom)) !important;
+  }
+
+  #shopify-pc__banner h2 {
+    margin: 0 0 0.6rem !important;
+    font-size: 1rem !important;
+    line-height: 1.3 !important;
+    text-align: center !important;
+  }
+
+  #shopify-pc__banner .shopify-pc__banner__body__text,
+  #shopify-pc__banner__body__text,
+  #shopify-pc__banner p {
+    min-width: 0 !important;
+    margin: 0 !important;
+    font-size: 0.8125rem !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+    text-indent: 0 !important;
+    overflow-wrap: break-word !important;
   }
 
   #shopify-pc__banner .shopify-pc__banner__body__actions,
-  #shopify-pc__banner__actions {
+  #shopify-pc__banner__actions,
+  #shopify-pc__banner div:has(> #shopify-pc__banner__btn-accept) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.625rem !important;
     width: 100% !important;
+    margin: 0 !important;
   }
 
   #shopify-pc__banner button {
-    flex: 1 1 0 !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 2.75rem !important;
+    margin: 0 !important;
+    padding: 0.75rem 0.5rem !important;
+    font-size: 0.6875rem !important;
+    line-height: 1.3 !important;
+    text-align: center !important;
+    white-space: normal !important;
+  }
+
+  #shopify-pc__banner__btn-accept { order: 0 !important; }
+  #shopify-pc__banner__btn-decline { order: 1 !important; }
+  #shopify-pc__banner__btn-manage-prefs {
+    grid-column: 1 / -1 !important;
+    order: 2 !important;
   }
 }
 
