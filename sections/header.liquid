@@ -1,7 +1,7 @@
 {% liquid
   assign announcement_url = section.settings.announcement_link
   if announcement_url == blank
-    assign announcement_url = 'https://xceed.me/en/lisboa/event/elysian-groove-still-on-vacation/244549/channel/elysian-groove?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAadqkynMRyKeIqagl75PByYuMdJ7d72PhYBaLiInow8uZUnadj1xw2u8USqG9Q_aem__nzLMy1LT8nm_7EowEtvcw&utm_id=97760_v0_s00_e0_tv3'
+    assign announcement_url = routes.all_products_collection_url
   endif
 %}
 
