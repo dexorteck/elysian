@@ -2,11 +2,11 @@
   <dialog class="drop-popup" data-drop-popup aria-labelledby="DropPopupTitle">
     <button class="drop-popup__close" type="button" aria-label="Close offer" data-drop-close>×</button>
     <div class="drop-popup__layout">
-      <img class="drop-popup__poster" src="{{ 'event-now-poster.jpeg' | asset_url }}" width="1350" height="1688" alt="Elysian presents Still on Vacation, November 7, Fábrica XL, LX Factory" loading="lazy">
+      <img class="drop-popup__poster" src="{{ 'IMG_4103.JPG.jpeg' | asset_img_url: '900x' }}" width="4509" height="6764" alt="Crowd at an Elysian Groove event" loading="lazy">
       <div class="drop-popup__copy">
         <p class="drop-popup__label">The drop gets you in</p>
         <h2 id="DropPopupTitle">Buy the drop<br>Get a ticket</h2>
-        <p>Every tee includes a ticket to our next event</p>
+        <p>Every tee includes a ticket to our next event on 19 December. Venue announced soon.</p>
         <a class="drop-popup__cta" href="{{ routes.all_products_collection_url }}">Shop the drop <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13 13 3M4 3h9v9" stroke="currentColor" stroke-width="1.5"/></svg></a>
       </div>
     </div>
@@ -51,7 +51,7 @@
       height: auto;
       min-height: 0;
       aspect-ratio: 1350 / 1688;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
     }
     .drop-popup__copy { padding: 1.25rem; }
