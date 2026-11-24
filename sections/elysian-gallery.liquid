@@ -2,6 +2,7 @@
   <header class="elysian-gallery__header">
     <nav class="elysian-gallery__filters" aria-label="Gallery events">
       <button type="button" class="is-active" data-gallery-filter="all">All</button>
+      <button type="button" data-gallery-filter="still-on-vacation">{{ section.settings.event_five }}</button>
       <button type="button" data-gallery-filter="1-year">{{ section.settings.event_one }}</button>
       <button type="button" data-gallery-filter="loft-marvila">{{ section.settings.event_two }}</button>
       <button type="button" data-gallery-filter="maat">{{ section.settings.event_three }}</button>
@@ -10,6 +11,17 @@
   </header>
 
   <div class="elysian-gallery__grid">
+    {% for batch in (0..3) %}
+      {% assign batch_offset = batch | times: 50 %}
+      {% for photo in (1..50) %}
+        {% assign photo_index = batch_offset | plus: photo %}
+        {% if photo_index > 189 %}{% break %}{% endif %}
+        {% assign vacation_asset = 'gallery-still-on-vacation-' | append: photo_index | append: '.jpg' %}
+        <figure class="elysian-gallery__item" data-gallery-event="still-on-vacation">
+          <img src="{{ vacation_asset | asset_url }}" width="1200" height="1800" loading="lazy" decoding="async" alt="Elysian Groove Still On Vacation">
+        </figure>
+      {% endfor %}
+    {% endfor %}
     {% for maat_index in (1..55) %}
       {% assign maat_asset = 'gallery-maat-' | append: maat_index | append: '.jpg' %}
       <figure class="elysian-gallery__item" data-gallery-event="maat">
@@ -127,7 +139,7 @@
     const buttons = gallery.querySelectorAll('[data-gallery-filter]');
     const grid = gallery.querySelector('.elysian-gallery__grid');
     const items = Array.from(gallery.querySelectorAll('[data-gallery-event]'));
-    const eventOrder = ['2-year', 'maat', 'loft-marvila', '1-year'];
+    const eventOrder = ['still-on-vacation', '2-year', 'maat', 'loft-marvila', '1-year'];
 
     items
       .sort((a, b) => eventOrder.indexOf(a.dataset.galleryEvent) - eventOrder.indexOf(b.dataset.galleryEvent))
@@ -154,7 +166,8 @@
     { "type": "text", "id": "event_one", "label": "First event name", "default": "1 Year" },
     { "type": "text", "id": "event_two", "label": "Second event name", "default": "Loft Marvila" },
     { "type": "text", "id": "event_three", "label": "Third event name", "default": "MAAT" },
-    { "type": "text", "id": "event_four", "label": "Fourth event name", "default": "2 Year" }
+    { "type": "text", "id": "event_four", "label": "Fourth event name", "default": "2 Year" },
+    { "type": "text", "id": "event_five", "label": "Fifth event name", "default": "Still On Vacation" }
   ],
   "blocks": [
     {
