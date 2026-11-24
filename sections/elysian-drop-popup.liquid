@@ -1,5 +1,5 @@
 {% if request.page_type == 'index' %}
-  <dialog class="drop-popup" data-drop-popup aria-labelledby="DropPopupTitle">
+  <dialog class="drop-popup" data-drop-popup aria-labelledby="DropPopupTitle" tabindex="-1">
     <button class="drop-popup__close" type="button" aria-label="Close offer" data-drop-close>×</button>
     <div class="drop-popup__layout">
       <img class="drop-popup__poster" src="{{ 'pop_up_nov24.PNG' | asset_url }}" width="1080" height="1350" alt="Elysian Groove" loading="lazy">
@@ -28,6 +28,7 @@
     font-family: var(--font-primary-family);
   }
   .drop-popup::backdrop { background: #000b; }
+  .drop-popup:focus { outline: none; }
   html:has(.drop-popup[open]) { overflow: hidden; }
   .drop-popup__layout { display: grid; grid-template-columns: 1fr 1fr; }
   .drop-popup__poster { width: 100%; height: 100%; object-fit: cover; }
@@ -75,6 +76,7 @@
         return;
       }
       offer.showModal();
+      offer.focus({ preventScroll: true });
       try { sessionStorage.setItem('elysian-drop-offer', 'seen'); } catch {}
     };
     if (!seen) setTimeout(showOffer, 3000);
