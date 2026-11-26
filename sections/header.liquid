@@ -6,8 +6,14 @@
 %}
 
 {% if section.settings.show_announcement %}
-  <a class="elysian-announcement full-width" href="{{ announcement_url }}">
-    {{ section.settings.announcement_text }}
+  <a class="elysian-announcement full-width" href="{{ announcement_url }}" aria-label="{{ section.settings.announcement_text | escape }}">
+    <span class="elysian-announcement__desktop">{{ section.settings.announcement_text }}</span>
+    <span class="elysian-announcement__mobile" aria-hidden="true">
+      <span class="elysian-announcement__track">
+        <span>{{ section.settings.announcement_text }}</span>
+        <span>{{ section.settings.announcement_text }}</span>
+      </span>
+    </span>
   </a>
 {% endif %}
 
@@ -95,6 +101,8 @@
   .elysian-announcement:hover {
     color: var(--color-background);
   }
+
+  .elysian-announcement__mobile { display: none; }
 
   .elysian-header {
     position: relative;
@@ -253,13 +261,20 @@
 
   @media (max-width: 900px) {
     .elysian-announcement {
-      padding: 0.65rem var(--site-edge);
+      padding: 0.65rem 0;
       font-size: 0.6rem;
       line-height: 1.5;
       letter-spacing: 0.03em;
-      white-space: normal;
-      text-wrap: balance;
+      overflow: hidden;
+      white-space: nowrap;
     }
+
+    .elysian-announcement__desktop { display: none; }
+    .elysian-announcement__mobile { display: block; overflow: hidden; }
+    .elysian-announcement__track { display: flex; width: max-content; animation: elysian-announcement-scroll 20s linear infinite; }
+    .elysian-announcement__track > span { flex-shrink: 0; padding-inline: 1.5rem; }
+    .elysian-announcement:hover .elysian-announcement__track,
+    .elysian-announcement:focus-visible .elysian-announcement__track { animation-play-state: paused; }
 
     .elysian-header {
       grid-template-columns: 1fr auto 1fr;
@@ -325,6 +340,15 @@
       grid-row: 1;
       justify-self: start;
     }
+  }
+  @keyframes elysian-announcement-scroll {
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .elysian-announcement__mobile { overflow-x: auto; }
+    .elysian-announcement__track { animation: none; }
+    .elysian-announcement__track > span + span { display: none; }
   }
 {% endstylesheet %}
 
