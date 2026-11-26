@@ -34,7 +34,11 @@
           {% else %}
             {{ 'product-1' | placeholder_svg_tag }}
           {% endif %}
-          {% unless card_product.available %}<span class="elysian-shop-card__badge">{{ 'products.product.sold_out' | t }}</span>{% endunless %}
+          {% if card_product.available %}
+            {% render 'discount-badge', item: card_product %}
+          {% else %}
+            <span class="elysian-shop-card__badge">{{ 'products.product.sold_out' | t }}</span>
+          {% endif %}
         </a>
         <div class="elysian-shop-card__meta">
           <h3><a href="{{ card_product.url }}">{{ card_product.title | escape | replace: 'Eyes on the DJ Long-Sleeve Tee', 'Eyes on the DJ<span class="product-title-mobile-break"> </span>Long-Sleeve Tee' }}</a></h3>

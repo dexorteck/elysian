@@ -1,0 +1,28 @@
+{% doc %}
+  Renders the product's discount over its card image.
+  @param {product} item - Product displayed in the card.
+  @example
+  {% render 'discount-badge', item: product %}
+{% enddoc %}
+{% assign discount_variant = item.variants | sort: 'price' | first %}
+{% if discount_variant.compare_at_price > discount_variant.price %}
+  {% assign saving = discount_variant.compare_at_price | minus: discount_variant.price | times: 100.0 | divided_by: discount_variant.compare_at_price | round %}
+  <span class="elysian-discount-badge">{{ saving }}% OFF</span>
+{% endif %}
+{% stylesheet %}
+  .elysian-shop-card__image .elysian-discount-badge,
+  .elysian-product-card__image .elysian-discount-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 1;
+    padding: 0.4rem 0.55rem;
+    background: #090909;
+    color: #f0eadf;
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+{% endstylesheet %}
