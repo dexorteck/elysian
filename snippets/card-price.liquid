@@ -11,13 +11,8 @@
     <s>{{ price_variant.compare_at_price | money }}</s>
   {% endif %}
   <span>{% if item.price_varies %}{{ 'products.product.from_price_html' | t: price: formatted_price }}{% else %}{{ item.price | money }}{% endif %}</span>
-  {% if price_variant.compare_at_price > price_variant.price %}
-    {% assign saving = price_variant.compare_at_price | minus: price_variant.price | times: 100.0 | divided_by: price_variant.compare_at_price | round %}
-    <span class="elysian-card-price__saving">{{ saving }}% OFF</span>
-  {% endif %}
 </span>
 {% stylesheet %}
   .elysian-card-price { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; }
   .elysian-card-price s { opacity: 0.55; font-weight: 400; }
-  .elysian-card-price__saving { padding: 0.2rem 0.4rem; border: 1px solid currentColor; font-size: 0.625rem; font-weight: 600; line-height: 1.2; letter-spacing: 0.04em; }
 {% endstylesheet %}
